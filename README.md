@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevToolkit
+
+A comprehensive all-in-one developer tools platform with a minimalistic, premium design inspired by Vercel.
+
+## Features
+
+- 🎨 **9 Essential Tools**: JSON Formatter, Base64 Encoder/Decoder, URL Encoder/Decoder, Regex Tester, JWT Decoder, Hash Generator, UUID Generator, Color Picker, and API Tester
+- 🌙 **Dark Mode**: Beautiful dark theme inspired by Vercel
+- ⚡ **Fast & Offline**: All tools work client-side, no API calls required
+- 📱 **Responsive**: Works perfectly on desktop, tablet, and mobile
+- 💾 **History**: Automatically saves your recent tool usage (localStorage)
+- 🎯 **Keyboard Shortcuts**: Quick actions for power users
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: Next.js 14+ (App Router)
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **State**: Zustand
+- **Syntax Highlighting**: Prism.js
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tools
 
-## Learn More
+1. **JSON Formatter** - Format, minify, and validate JSON
+2. **Base64 Encoder/Decoder** - Encode and decode Base64 strings
+3. **URL Encoder/Decoder** - Encode and decode URL strings
+4. **Regex Tester** - Test and debug regular expressions
+5. **JWT Decoder** - Decode and inspect JWT tokens
+6. **Hash Generator** - Generate MD5, SHA-1, SHA-256, SHA-512 hashes
+7. **UUID Generator** - Generate UUID v1 and v4 identifiers
+8. **Color Picker** - Pick colors and convert between formats
+9. **API Tester** - Test REST APIs with custom requests
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
