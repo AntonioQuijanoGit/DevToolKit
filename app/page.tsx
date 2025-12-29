@@ -74,8 +74,10 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              View on GitHub
+            <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
+              <Link href="https://github.com/AntonioQuijanoGit/DevToolKit" target="_blank" rel="noopener noreferrer">
+                View on GitHub
+              </Link>
             </Button>
           </div>
 

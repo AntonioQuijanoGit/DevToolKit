@@ -16,6 +16,8 @@ A comprehensive all-in-one developer tools platform with a minimalistic, premium
 
 ## Getting Started
 
+### Local Development
+
 ```bash
 # Install dependencies
 npm install
@@ -40,6 +42,22 @@ npm run test:coverage
 
 # Clean build cache
 npm run clean
+```
+
+### Docker
+
+```bash
+# Build Docker image
+docker build -t devtoolkit .
+
+# Run container
+docker run -p 3000:3000 devtoolkit
+
+# Or use docker-compose
+docker-compose up -d
+
+# Stop container
+docker-compose down
 ```
 
 ## Tech Stack
@@ -137,7 +155,9 @@ devtoolkit/
 
 ## Development
 
-The app runs on port 3004 by default. You can change this in `package.json`.
+The app runs on port 3004 by default in development mode. You can change this in `package.json`.
+
+In Docker, the app runs on port 3000 by default.
 
 ### Key Features Implementation
 
