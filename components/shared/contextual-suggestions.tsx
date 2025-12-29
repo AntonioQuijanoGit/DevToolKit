@@ -55,7 +55,7 @@ export function ContextualSuggestions({
 
   return (
     <div className={cn("mb-4", className)}>
-        <Card className="p-4 bg-primary/5 border-primary/20">
+        <Card className="p-4 bg-primary/5 border-primary/20 pl-12 md:pl-4">
           <div className="flex items-start gap-3">
             <Sparkles className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
             <div className="flex-1">
