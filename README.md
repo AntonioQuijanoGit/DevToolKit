@@ -29,6 +29,15 @@ npm run build
 # Start production server
 npm start
 
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+
 # Clean build cache
 npm run clean
 ```
@@ -43,6 +52,7 @@ npm run clean
 - **State Management**: Zustand
 - **Syntax Highlighting**: Prism.js
 - **UI Components**: Radix UI primitives
+- **Testing**: Jest + React Testing Library
 
 ## Available Tools
 
@@ -136,6 +146,24 @@ The app runs on port 3004 by default. You can change this in `package.json`.
 - **State Management**: Zustand for client-side state
 - **Theme System**: Dark/light mode with system preference detection
 - **Keyboard Navigation**: Command palette and shortcuts throughout
+- **Testing**: Comprehensive test suite with Jest and React Testing Library
+
+## Testing
+
+The project includes a comprehensive test suite using Jest and React Testing Library. Tests cover utility functions, formatters, encoders, and generators.
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode (for development)
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+Test files are located in the `__tests__` directory and follow the naming convention `*.test.ts` or `*.test.tsx`.
 
 ## License
 
