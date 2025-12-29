@@ -32,25 +32,32 @@ export function Sidebar() {
     setMounted(true);
   }, []);
 
-  const favoriteTools = tools.filter((tool) => favorites.includes(tool.id));
-  const toolsByCategory = categories.map((category) => ({
-    category,
-    tools: tools.filter((tool) => tool.category === category),
-  }));
+  const favoriteTools = useMemo(() => 
+    tools.filter((tool) => favorites.includes(tool.id)),
+    [favorites]
+  );
+  
+  const toolsByCategory = useMemo(() => 
+    categories.map((category) => ({
+      category,
+      tools: tools.filter((tool) => tool.category === category),
+    })),
+    []
+  );
 
   return (
     <aside className="hidden md:block fixed left-0 top-0 h-screen w-60 border-r border-border bg-card overflow-y-auto z-40">
-      <div className="p-6 border-b border-border flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+      <div className="p-4 md:p-6 border-b border-border flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 min-w-0">
+          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
             <span className="text-primary-foreground font-bold text-sm">DT</span>
           </div>
-          <span className="font-bold text-lg">DevToolkit</span>
+          <span className="font-bold text-base md:text-lg truncate">DevToolkit</span>
         </Link>
         <ThemeToggle />
       </div>
 
-      <nav className="p-4 space-y-6">
+      <nav className="p-3 md:p-4 space-y-4 md:space-y-6">
         {mounted && recentTools.length > 0 && (
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2 flex items-center gap-2">

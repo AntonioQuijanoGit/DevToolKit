@@ -32,20 +32,23 @@ export function MobileSidebar() {
     setMounted(true);
   }, []);
 
-  const toolsByCategory = categories.map((category) => ({
-    category,
-    tools: tools.filter((tool) => tool.category === category),
-  }));
+  const toolsByCategory = useMemo(() => 
+    categories.map((category) => ({
+      category,
+      tools: tools.filter((tool) => tool.category === category),
+    })),
+    []
+  );
 
   return (
     <>
       <Button
         variant="ghost"
         size="icon"
-        className="md:hidden fixed top-4 left-4 z-50"
+        className="md:hidden fixed top-3 left-3 sm:top-4 sm:left-4 z-50"
         onClick={() => setOpen(true)}
       >
-        <Menu className="h-6 w-6" />
+        <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
       </Button>
 
       <AnimatePresence>
@@ -63,24 +66,24 @@ export function MobileSidebar() {
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 h-screen w-64 border-r border-border bg-card overflow-y-auto z-50 md:hidden"
+              className="fixed left-0 top-0 h-screen w-[280px] sm:w-64 border-r border-border bg-card overflow-y-auto z-50 md:hidden"
             >
-              <div className="p-6 border-b border-border flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-                  <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+              <div className="p-4 sm:p-6 border-b border-border flex items-center justify-between">
+                <Link href="/" className="flex items-center gap-2 min-w-0" onClick={() => setOpen(false)}>
+                  <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
                     <span className="text-primary-foreground font-bold text-sm">DT</span>
                   </div>
-                  <span className="font-bold text-lg">DevToolkit</span>
+                  <span className="font-bold text-base sm:text-lg truncate">DevToolkit</span>
                 </Link>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-shrink-0">
                   <ThemeToggle />
                   <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
-                    <X className="h-5 w-5" />
+                    <X className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </div>
               </div>
 
-              <nav className="p-4 space-y-6">
+              <nav className="p-3 sm:p-4 space-y-4 sm:space-y-6">
                 {mounted && recentTools.length > 0 && (
                   <div>
                     <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2 flex items-center gap-2">

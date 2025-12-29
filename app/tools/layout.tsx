@@ -3,11 +3,12 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileSidebar } from "@/components/layout/mobile-sidebar";
 import { ContextualSuggestions } from "@/components/shared/contextual-suggestions";
+import { Footer } from "@/components/shared/footer";
 import { useStatsStore } from "@/lib/store/stats-store";
 import { useRecentToolsStore } from "@/lib/store/recent-tools-store";
 import { useAnalyticsStore } from "@/lib/store/analytics-store";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useCallback } from "react";
 
 export default function ToolsLayout({
   children,
@@ -18,18 +19,6 @@ export default function ToolsLayout({
   const recordUsage = useStatsStore((state) => state.recordUsage);
   const addRecent = useRecentToolsStore((state) => state.addRecent);
   const recordActivity = useAnalyticsStore((state) => state.recordActivity);
-  
-  // Use refs to avoid dependency issues
-  const recordUsageRef = useRef(recordUsage);
-  const addRecentRef = useRef(addRecent);
-  const recordActivityRef = useRef(recordActivity);
-  
-  // Update refs when functions change
-  useEffect(() => {
-    recordUsageRef.current = recordUsage;
-    addRecentRef.current = addRecent;
-    recordActivityRef.current = recordActivity;
-  }, [recordUsage, addRecent, recordActivity]);
 
   const currentToolId = useMemo(() => {
     if (pathname.startsWith("/tools/")) {
@@ -41,14 +30,18 @@ export default function ToolsLayout({
   // Track last tool to avoid duplicate recordings
   const lastToolIdRef = useRef<string | undefined>(undefined);
 
+  const recordToolUsage = useCallback((toolId: string) => {
+    recordUsage(toolId);
+    addRecent(toolId);
+    recordActivity(toolId);
+  }, [recordUsage, addRecent, recordActivity]);
+
   useEffect(() => {
     if (currentToolId && currentToolId !== lastToolIdRef.current) {
       lastToolIdRef.current = currentToolId;
-      recordUsageRef.current(currentToolId);
-      addRecentRef.current(currentToolId);
-      recordActivityRef.current(currentToolId);
+      recordToolUsage(currentToolId);
     }
-  }, [currentToolId]);
+  }, [currentToolId, recordToolUsage]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -56,11 +49,12 @@ export default function ToolsLayout({
       <Sidebar />
       <main className="flex-1 md:ml-60 overflow-y-auto">
         {currentToolId && (
-          <div className="p-6 pb-0">
+          <div className="p-3 sm:p-4 md:p-6 pb-0">
             <ContextualSuggestions currentToolId={currentToolId} />
           </div>
         )}
         {children}
+        <Footer />
       </main>
     </div>
   );

@@ -6,7 +6,6 @@ import { Sparkles, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { motion, AnimatePresence } from "framer-motion";
 import { tools } from "@/lib/constants/tools";
 import { useStatsStore } from "@/lib/store/stats-store";
 import { cn } from "@/lib/utils";
@@ -55,13 +54,7 @@ export function ContextualSuggestions({
   if (suggestions.length === 0 || dismissed) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -20, opacity: 0 }}
-        className={cn("mb-4", className)}
-      >
+    <div className={cn("mb-4", className)}>
         <Card className="p-4 bg-primary/5 border-primary/20">
           <div className="flex items-start gap-3">
             <Sparkles className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
@@ -100,8 +93,7 @@ export function ContextualSuggestions({
             </Button>
           </div>
         </Card>
-      </motion.div>
-    </AnimatePresence>
+    </div>
   );
 }
 

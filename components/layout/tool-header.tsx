@@ -17,17 +17,17 @@ export function ToolHeader({
   return (
     <header
       className={cn(
-        "border-b border-border bg-card px-6 py-4",
+        "border-b border-border bg-card px-4 sm:px-6 py-3 sm:py-4",
         className
       )}
     >
-      <div className="flex items-center gap-4">
-        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-          <Icon className="h-5 w-5 text-primary" />
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
         </div>
-        <div>
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <p className="text-sm text-muted-foreground">{description}</p>
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl font-bold truncate">{title}</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{description}</p>
         </div>
       </div>
     </header>

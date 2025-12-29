@@ -135,3 +135,31 @@
     font-family: var(--font-inter);
   }
 }
+
+/* Hide Next.js development indicators and logo */
+#__next-build-watcher,
+#__next-build-watcher *,
+.__next-dev-overlay,
+[data-nextjs-dialog],
+[data-nextjs-toast],
+[data-nextjs-toast-errors],
+.__next-dev-indicator,
+.__next-dev-indicator-wrapper,
+[data-nextjs-dev-indicator],
+/* Next.js logo SVG in bottom left */
+svg[viewBox="0 0 394 80"],
+svg[viewBox*="394"][viewBox*="80"],
+/* Any element containing Next.js logo */
+div:has(svg[viewBox="0 0 394 80"]),
+div:has(svg[viewBox*="394"][viewBox*="80"]),
+/* Fixed position elements in bottom left corner */
+[style*="position: fixed"][style*="bottom"][style*="left"],
+[style*="position:fixed"][style*="bottom"][style*="left"],
+/* More specific selectors for Next.js dev indicator */
+body > div[style*="position: fixed"]:has(svg),
+body > div[style*="position:fixed"]:has(svg) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

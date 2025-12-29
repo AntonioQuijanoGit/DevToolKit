@@ -81,20 +81,20 @@ export default function HashGeneratorPage() {
         icon={Hash}
       />
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-3 sm:p-4 md:p-6">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "generate" | "compare")} className="h-full flex flex-col">
-          <TabsList className="mb-4">
-            <TabsTrigger value="generate">Generate</TabsTrigger>
-            <TabsTrigger value="compare">Compare</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="generate" className="text-xs sm:text-sm">Generate</TabsTrigger>
+            <TabsTrigger value="compare" className="text-xs sm:text-sm">Compare</TabsTrigger>
           </TabsList>
 
           {activeTab === "generate" ? (
-            <div className="flex-1 grid grid-cols-2 gap-4 overflow-hidden">
+            <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-hidden">
               {/* Input Panel */}
               <Card className="flex flex-col overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between pb-3">
-                  <CardTitle>Input</CardTitle>
-                  <div className="flex gap-2">
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6">
+                  <CardTitle className="text-base sm:text-lg">Input</CardTitle>
+                  <div className="flex gap-2 flex-wrap">
                     <HistoryDropdown
                       toolId="hash-generator"
                       onSelect={(input, output) => {
@@ -102,15 +102,15 @@ export default function HashGeneratorPage() {
                         setOutput(output);
                       }}
                     />
-                    <Button variant="outline" size="sm" onClick={handleExample}>
+                    <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm">
                       Example
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={handleClear}>
+                    <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm">
                       Clear
                     </Button>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 overflow-hidden space-y-4">
+                <CardContent className="flex-1 overflow-hidden space-y-4 p-4 sm:p-6">
                   <Select value={algorithm} onValueChange={(v) => setAlgorithm(v as typeof algorithms[number])}>
                     <SelectTrigger>
                       <SelectValue />
@@ -127,21 +127,21 @@ export default function HashGeneratorPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Enter text to hash..."
-                    className="flex-1 font-mono text-sm resize-none"
+                    className="flex-1 font-mono text-xs sm:text-sm resize-none"
                   />
                 </CardContent>
               </Card>
 
               {/* Output Panel */}
               <Card className="flex flex-col overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between pb-3">
-                  <CardTitle>Hash ({algorithm})</CardTitle>
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6">
+                  <CardTitle className="text-base sm:text-lg">Hash ({algorithm})</CardTitle>
                   {output && <CopyButton text={output} />}
                 </CardHeader>
-                <CardContent className="flex-1 overflow-hidden">
+                <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                   {output ? (
-                    <div className="h-full overflow-auto p-4">
-                      <pre className="text-sm font-mono break-all">{output}</pre>
+                    <div className="h-full overflow-auto">
+                      <pre className="text-xs sm:text-sm font-mono break-all">{output}</pre>
                     </div>
                   ) : (
                     <EmptyState
@@ -154,18 +154,18 @@ export default function HashGeneratorPage() {
               </Card>
             </div>
           ) : (
-            <div className="flex-1 space-y-4 overflow-hidden">
-              <div className="grid grid-cols-2 gap-4 flex-1 overflow-hidden">
+            <div className="flex-1 space-y-3 sm:space-y-4 overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 flex-1 overflow-hidden">
                 <Card className="flex flex-col overflow-hidden">
-                  <CardHeader>
-                    <CardTitle>Text 1</CardTitle>
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="text-base sm:text-lg">Text 1</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-1 overflow-hidden space-y-4">
+                  <CardContent className="flex-1 overflow-hidden space-y-4 p-4 sm:p-6">
                     <Textarea
                       value={compareInput1}
                       onChange={(e) => setCompareInput1(e.target.value)}
                       placeholder="Enter first text..."
-                      className="flex-1 font-mono text-sm resize-none"
+                      className="flex-1 font-mono text-xs sm:text-sm resize-none"
                     />
                     {compareHash1 && (
                       <div className="space-y-2">
@@ -180,15 +180,15 @@ export default function HashGeneratorPage() {
                 </Card>
 
                 <Card className="flex flex-col overflow-hidden">
-                  <CardHeader>
-                    <CardTitle>Text 2</CardTitle>
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="text-base sm:text-lg">Text 2</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-1 overflow-hidden space-y-4">
+                  <CardContent className="flex-1 overflow-hidden space-y-4 p-4 sm:p-6">
                     <Textarea
                       value={compareInput2}
                       onChange={(e) => setCompareInput2(e.target.value)}
                       placeholder="Enter second text..."
-                      className="flex-1 font-mono text-sm resize-none"
+                      className="flex-1 font-mono text-xs sm:text-sm resize-none"
                     />
                     {compareHash2 && (
                       <div className="space-y-2">
@@ -205,15 +205,15 @@ export default function HashGeneratorPage() {
 
               {compareHash1 && compareHash2 && (
                 <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-center justify-center gap-4">
-                      <GitCompare className="h-6 w-6" />
+                  <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+                      <GitCompare className="h-5 w-5 sm:h-6 sm:w-6" />
                       {hashesMatch ? (
-                        <Badge variant="default" className="bg-green-500">
+                        <Badge variant="default" className="bg-green-500 text-xs sm:text-sm">
                           Hashes Match ✓
                         </Badge>
                       ) : (
-                        <Badge variant="destructive">Hashes Don't Match ✗</Badge>
+                        <Badge variant="destructive" className="text-xs sm:text-sm">Hashes Don't Match ✗</Badge>
                       )}
                     </div>
                   </CardContent>
@@ -225,13 +225,13 @@ export default function HashGeneratorPage() {
       </div>
 
       {/* Action Bar */}
-      <div className="border-t border-border p-4 flex justify-center gap-3">
+      <div className="border-t border-border p-3 sm:p-4 flex justify-center gap-2 sm:gap-3">
         {activeTab === "generate" ? (
-          <Button onClick={handleGenerate} size="lg" disabled={!input.trim()}>
+          <Button onClick={handleGenerate} size="lg" disabled={!input.trim()} className="w-full sm:w-auto">
             Generate
           </Button>
         ) : (
-          <Button onClick={handleCompare} size="lg" disabled={!compareInput1.trim() || !compareInput2.trim()}>
+          <Button onClick={handleCompare} size="lg" disabled={!compareInput1.trim() || !compareInput2.trim()} className="w-full sm:w-auto">
             Compare
           </Button>
         )}
