@@ -31,13 +31,20 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center h-full text-center p-8 text-muted-foreground",
+        "flex flex-col items-center justify-center h-full min-h-[200px] text-center p-6 sm:p-8 text-muted-foreground",
         className
       )}
+      role="status"
+      aria-live="polite"
     >
-      {Icon && <Icon className="h-12 w-12 mb-4 opacity-50" />}
-      <h3 className="text-lg font-semibold mb-2 text-foreground">{title}</h3>
-      <p className="text-sm max-w-sm mb-6">{description}</p>
+      {Icon && (
+        <Icon 
+          className="h-12 w-12 sm:h-16 sm:w-16 mb-4 opacity-50 text-muted-foreground" 
+          aria-hidden="true"
+        />
+      )}
+      <h3 className="text-base sm:text-lg font-semibold mb-2 text-foreground">{title}</h3>
+      <p className="text-sm sm:text-base max-w-sm mb-6 leading-relaxed">{description}</p>
       
       {(action || secondaryAction) && (
         <div className="flex gap-2 flex-wrap justify-center">

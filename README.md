@@ -1,53 +1,81 @@
 # DevToolkit
 
-A comprehensive all-in-one developer tools platform with a minimalistic, premium design inspired by Vercel.
+A collection of developer tools in one place. Format code, convert data, test APIs, generate identifiers, and more—all running in your browser.
 
-## Features
+## What's Included
 
-- 🎨 **40+ Essential Tools**: Format, convert, test, generate, and analyze code and data
-- 🌙 **Dark/Light Mode**: Beautiful theme inspired by Vercel with smooth transitions
-- ⚡ **Fast & Offline**: All tools work client-side, no API calls required
-- 📱 **Fully Responsive**: Works perfectly on desktop, tablet, and mobile devices
-- 💾 **History & Favorites**: Automatically saves your recent tool usage and favorite tools
-- 🎯 **Keyboard Shortcuts**: Quick actions for power users (Cmd/Ctrl + K for search)
-- 🔍 **Command Palette**: Fast navigation and tool search
-- 📊 **Usage Statistics**: Track your tool usage and activity
-- 🎨 **Modern UI**: Built with shadcn/ui components and Framer Motion animations
+The toolkit includes 41 tools organized into categories:
+
+**Formatters**: JSON, YAML, XML, SQL, HTML, Markdown, and Shell script formatting
+
+**Encoders/Decoders**: Base64, URL, and HTML entity encoding/decoding
+
+**Security Tools**: JWT decoder, hash generator (MD5, SHA-1, SHA-256, SHA-512), and password generator
+
+**Generators**: UUIDs, QR codes, color picker, and Lorem Ipsum text
+
+**Converters**: CSV to JSON, image to Base64, timestamp converter, case converter, and JSON to TypeScript
+
+**Testing & Utilities**: Regex tester, API tester, text diff, JSONPath tester, and string utilities
+
+**Code Tools**: Code analyzer, code explainer, JavaScript minifier, shell command builder, command cheatsheet, and cURL generator
+
+**DevOps**: Docker command builder, cron expression builder, batch processor, and workflow automation
+
+**Other**: GraphQL tools, API docs generator, and usage statistics
 
 ## Getting Started
 
-### Local Development
+### Prerequisites
+
+- Node.js 18 or higher
+- npm or yarn
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/AntonioQuijanoGit/DevToolKit.git
+cd DevToolKit/devtoolkit
+
 # Install dependencies
 npm install
 
-# Run development server (port 3004)
+# Start development server
 npm run dev
+```
 
-# Build for production
+The app will be available at `http://localhost:3000` (or the port specified in `package.json`).
+
+### Building for Production
+
+```bash
+# Create production build
 npm run build
 
 # Start production server
 npm start
-
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
-
-# Clean build cache
-npm run clean
 ```
 
-### Docker
+### Running Tests
 
 ```bash
-# Build Docker image
+# Run all tests
+npm test
+
+# Watch mode for development
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+## Docker
+
+The project includes Docker configuration for easy deployment:
+
+```bash
+# Build image
 docker build -t devtoolkit .
 
 # Run container
@@ -55,135 +83,74 @@ docker run -p 3000:3000 devtoolkit
 
 # Or use docker-compose
 docker-compose up -d
-
-# Stop container
-docker-compose down
 ```
+
+## Features
+
+**Offline Support**: All tools work client-side. No API calls required for most operations.
+
+**Responsive Design**: Works on desktop, tablet, and mobile devices with a mobile-first approach.
+
+**Dark/Light Mode**: Theme switching with system preference detection.
+
+**Keyboard Shortcuts**: 
+- `Cmd/Ctrl + K` - Open command palette
+- `?` - Show keyboard shortcuts
+- `ESC` - Close modals
+
+**History & Favorites**: Recent tools are tracked automatically. Mark tools as favorites for quick access.
+
+**Usage Statistics**: View which tools you use most frequently.
 
 ## Tech Stack
 
-- **Framework**: Next.js 16.1.1 (App Router)
-- **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS 4 + shadcn/ui
+- **Framework**: Next.js 16.1.1 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **UI Components**: shadcn/ui (built on Radix UI)
 - **Animations**: Framer Motion
-- **Icons**: Lucide React
 - **State Management**: Zustand
-- **Syntax Highlighting**: Prism.js
-- **UI Components**: Radix UI primitives
-- **Testing**: Jest + React Testing Library
-
-## Available Tools
-
-### Formatters
-- JSON Formatter - Format, minify, and validate JSON
-- YAML Formatter - Format and validate YAML files
-- XML Formatter - Format and validate XML documents
-- SQL Formatter - Format and validate SQL queries
-- HTML Formatter - Format and beautify HTML code
-- Markdown Editor - Editor with live preview
-- Shell Formatter - Format shell scripts
-
-### Encoders/Decoders
-- Base64 Encoder/Decoder - Encode and decode Base64 strings
-- URL Encoder/Decoder - Encode and decode URL strings
-- HTML Entity Encoder - Encode and decode HTML entities
-
-### Security
-- JWT Decoder - Decode and inspect JWT tokens
-- Hash Generator - Generate MD5, SHA-1, SHA-256, SHA-512 hashes
-- Password Generator - Generate secure passwords
-
-### Generators
-- UUID Generator - Generate UUID v1 and v4 identifiers
-- Color Picker - Pick colors and convert between formats
-- QR Generator - Generate QR codes
-- Lorem Ipsum Generator - Generate placeholder text
-
-### Converters
-- CSV to JSON - Convert CSV to JSON and vice versa
-- Image to Base64 - Convert images to Base64 with preview
-- Timestamp Converter - Convert Unix timestamps to readable dates
-- Case Converter - Convert text between different cases
-- JSON to TypeScript - Generate TypeScript interfaces from JSON
-
-### Testers & Utilities
-- Regex Tester - Test and debug regular expressions
-- Regex to Grep - Convert regex patterns to grep commands
-- API Tester - Test REST APIs with custom requests
-- Text Diff - Compare and highlight differences between texts
-- JSON Path Tester - Query JSON data with JSONPath expressions
-- String Utilities - Count characters, words, lines and more
-
-### Code Tools
-- Code Analyzer - Analyze code and get intelligent suggestions
-- Code Explainer - Explain code functionality
-- JS Minifier - Minify JavaScript code
-- Shell Command Builder - Build shell commands interactively
-- Command Cheatsheet - Quick reference for common commands
-- Curl Generator - Generate curl commands from API requests
-
-### DevOps
-- Docker Builder - Build Docker commands interactively
-- Cron Builder - Build cron expressions visually
-- Batch Processor - Process multiple items at once
-- Workflow Automation - Create and execute workflows
-
-### Other Tools
-- GraphQL Tools - Test and explore GraphQL APIs
-- API Docs Generator - Generate API documentation
-- Stats - View usage statistics and analytics
+- **Icons**: Lucide React
+- **Testing**: Jest with React Testing Library
 
 ## Project Structure
 
 ```
 devtoolkit/
-├── app/                    # Next.js app directory
-│   ├── tools/             # Tool pages
+├── app/                    # Next.js pages and layouts
+│   ├── tools/             # Individual tool pages
 │   ├── layout.tsx         # Root layout
 │   └── page.tsx           # Home page
-├── components/            # React components
-│   ├── layout/           # Layout components
-│   ├── shared/           # Shared components
-│   └── ui/               # UI components (shadcn/ui)
-├── lib/                   # Utilities and stores
-│   ├── constants/        # Constants and data
-│   ├── hooks/            # Custom hooks
+├── components/            
+│   ├── layout/           # Sidebar, headers, etc.
+│   ├── shared/           # Reusable components
+│   └── ui/               # Base UI components
+├── lib/                   
+│   ├── constants/        # Tool definitions, examples
+│   ├── hooks/            # Custom React hooks
 │   ├── store/            # Zustand stores
 │   └── utils/            # Utility functions
+├── __tests__/            # Test files
 └── public/               # Static assets
 ```
 
-## Development
+## Development Notes
 
-The app runs on port 3004 by default in development mode. You can change this in `package.json`.
+The app uses a mobile-first responsive design. Breakpoints follow Tailwind's default system (sm: 640px, md: 768px, lg: 1024px, xl: 1280px).
 
-In Docker, the app runs on port 3000 by default.
+State is managed client-side using Zustand stores. Data persists in localStorage for history, favorites, and statistics.
 
-### Key Features Implementation
+Accessibility features include:
+- ARIA labels and roles
+- Keyboard navigation support
+- Focus management
+- Screen reader support
+- Reduced motion support
+- High contrast mode support
 
-- **Responsive Design**: Mobile-first approach with Tailwind CSS breakpoints
-- **Offline Support**: Service worker for offline functionality
-- **State Management**: Zustand for client-side state
-- **Theme System**: Dark/light mode with system preference detection
-- **Keyboard Navigation**: Command palette and shortcuts throughout
-- **Testing**: Comprehensive test suite with Jest and React Testing Library
+## Contributing
 
-## Testing
-
-The project includes a comprehensive test suite using Jest and React Testing Library. Tests cover utility functions, formatters, encoders, and generators.
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode (for development)
-npm run test:watch
-
-# Generate coverage report
-npm run test:coverage
-```
-
-Test files are located in the `__tests__` directory and follow the naming convention `*.test.ts` or `*.test.tsx`.
+Contributions are welcome. Please ensure tests pass and follow the existing code style.
 
 ## License
 
@@ -191,4 +158,4 @@ MIT
 
 ## Author
 
-Developed with ❤️ by Antonio Quijano
+Antonio Quijano

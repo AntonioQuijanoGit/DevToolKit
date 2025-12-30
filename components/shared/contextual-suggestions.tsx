@@ -54,18 +54,18 @@ export function ContextualSuggestions({
   if (suggestions.length === 0 || dismissed) return null;
 
   return (
-    <div className={cn("mb-4", className)}>
-        <Card className="p-4 bg-primary/5 border-primary/20 pl-12 md:pl-4">
-          <div className="flex items-start gap-3">
-            <Sparkles className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-            <div className="flex-1">
-              <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
+    <div className={cn("mb-3 sm:mb-4", className)} role="region" aria-label="Suggested tools">
+        <Card className="p-3 sm:p-4 sm:p-4 bg-primary/5 border-primary/20 pl-12 sm:pl-14 sm:pl-16 md:pl-4">
+          <div className="flex items-start gap-2.5 sm:gap-3">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary mt-0.5 flex-shrink-0" aria-hidden="true" />
+            <div className="flex-1 min-w-0">
+              <h4 className="font-semibold text-xs sm:text-sm mb-2 sm:mb-2.5 flex items-center gap-2">
                 You might also like
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-[10px] sm:text-xs">
                   {suggestions.length}
                 </Badge>
               </h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 sm:gap-2.5" role="list" aria-label="Suggested tools">
                 {suggestions.map((tool) => {
                   const Icon = tool.icon;
                   return (
@@ -74,10 +74,12 @@ export function ContextualSuggestions({
                       variant="outline"
                       size="sm"
                       onClick={() => router.push(tool.href)}
-                      className="h-auto py-2 px-3"
+                      className="h-auto min-h-[44px] py-2 sm:py-2.5 px-3 sm:px-3.5 text-xs sm:text-sm"
+                      role="listitem"
+                      aria-label={`Go to ${tool.name}`}
                     >
-                      <Icon className="h-4 w-4 mr-2" />
-                      {tool.name}
+                      <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 flex-shrink-0" aria-hidden="true" />
+                      <span className="truncate">{tool.name}</span>
                     </Button>
                   );
                 })}
@@ -86,10 +88,11 @@ export function ContextualSuggestions({
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 flex-shrink-0"
+              className="h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 min-h-[44px] min-w-[44px]"
               onClick={() => setDismissed(true)}
+              aria-label="Dismiss suggestions"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4 sm:h-4.5 sm:w-4.5" aria-hidden="true" />
             </Button>
           </div>
         </Card>

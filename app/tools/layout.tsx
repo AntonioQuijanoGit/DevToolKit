@@ -47,9 +47,15 @@ export default function ToolsLayout({
     <div className="flex h-screen overflow-hidden">
       <MobileSidebar />
       <Sidebar />
-      <main className="flex-1 md:ml-60 overflow-y-auto">
+      <main 
+        id="main-content"
+        className="flex-1 md:ml-60 lg:ml-64 overflow-y-auto focus:outline-none scroll-smooth"
+        role="main"
+        aria-label="Main content"
+        tabIndex={-1}
+      >
         {currentToolId && (
-          <div className="p-3 sm:p-4 md:p-6 pb-0">
+          <div className="p-3 sm:p-4 sm:p-5 md:p-6 pb-0">
             <ContextualSuggestions currentToolId={currentToolId} />
           </div>
         )}
