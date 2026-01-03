@@ -101,7 +101,7 @@ export default function LoremIpsumPage() {
           <Card>
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Options</CardTitle>
-              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                 Example
               </Button>
             </CardHeader>
@@ -142,7 +142,7 @@ export default function LoremIpsumPage() {
               <CardTitle className="text-base sm:text-lg font-semibold">Generated Text</CardTitle>
               <div className="flex gap-2 flex-wrap">
                 {output && <CopyButton text={output} />}
-                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                   Clear
                 </Button>
               </div>

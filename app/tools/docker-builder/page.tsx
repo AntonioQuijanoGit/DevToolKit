@@ -132,7 +132,7 @@ export default function DockerBuilderPage() {
           <Card>
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Parameters</CardTitle>
-              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm">
                 Example
               </Button>
             </CardHeader>

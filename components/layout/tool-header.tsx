@@ -21,9 +21,11 @@ export function ToolHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-20 border-b border-border bg-card/95 backdrop-blur-sm px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5",
-        // Add left padding on mobile to avoid hamburger menu overlap
-        "pl-12 sm:pl-14 md:pl-6",
+        "sticky top-0 z-20 border-b border-border bg-card/95 backdrop-blur-sm",
+        // Mobile: more padding to avoid hamburger menu, better touch spacing
+        "px-4 py-4 pl-14",
+        // Tablet and up: standard padding
+        "sm:px-5 sm:py-4 md:px-6 md:py-5 md:pl-6",
         className
       )}
       role="banner"

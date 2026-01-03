@@ -108,7 +108,7 @@ export default function CronBuilderPage() {
           <Card>
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Builder</CardTitle>
-              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                 Example
               </Button>
             </CardHeader>
@@ -169,7 +169,7 @@ export default function CronBuilderPage() {
                 />
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={handleClear} size="sm" className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="outline" onClick={handleClear} size="sm" className="text-xs sm:text-sm ">
                   Clear
                 </Button>
               </div>
@@ -215,7 +215,7 @@ export default function CronBuilderPage() {
                   variant="outline"
                   size="sm"
                   onClick={() => handlePreset(preset.value)}
-                  className="text-xs sm:text-sm min-h-[36px]"
+                  className="text-xs sm:text-sm "
                 >
                   {preset.name}
                 </Button>

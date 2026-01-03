@@ -61,7 +61,7 @@ export default function UUIDGeneratorPage() {
         <Card>
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6">
             <CardTitle className="text-base sm:text-lg font-semibold">Options</CardTitle>
-            <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+            <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
               Example
             </Button>
           </CardHeader>
@@ -109,10 +109,10 @@ export default function UUIDGeneratorPage() {
             <div className="flex gap-2 flex-wrap">
               {uuids.length > 0 && (
                 <>
-                  <Button variant="outline" size="sm" onClick={handleCopyAll} className="text-xs sm:text-sm min-h-[36px]">
+                  <Button variant="outline" size="sm" onClick={handleCopyAll} className="text-xs sm:text-sm ">
                     Copy All
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                     Clear
                   </Button>
                 </>

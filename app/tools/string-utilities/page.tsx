@@ -68,10 +68,10 @@ export default function StringUtilitiesPage() {
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                   Example
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                   Clear
                 </Button>
               </div>
@@ -131,7 +131,7 @@ export default function StringUtilitiesPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => handleTransform((t) => t.toUpperCase())}
-                className="text-xs sm:text-sm min-h-[36px]"
+                className="text-xs sm:text-sm "
               >
                 UPPERCASE
               </Button>
@@ -139,7 +139,7 @@ export default function StringUtilitiesPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => handleTransform((t) => t.toLowerCase())}
-                className="text-xs sm:text-sm min-h-[36px]"
+                className="text-xs sm:text-sm "
               >
                 lowercase
               </Button>
@@ -147,7 +147,7 @@ export default function StringUtilitiesPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => handleTransform((t) => t.split("").reverse().join(""))}
-                className="text-xs sm:text-sm min-h-[36px]"
+                className="text-xs sm:text-sm "
               >
                 Reverse
               </Button>
@@ -155,7 +155,7 @@ export default function StringUtilitiesPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => handleTransform((t) => t.trim())}
-                className="text-xs sm:text-sm min-h-[36px]"
+                className="text-xs sm:text-sm "
               >
                 Trim
               </Button>

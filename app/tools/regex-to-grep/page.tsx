@@ -121,7 +121,7 @@ export default function RegexToGrepPage() {
                     variant={flags.includes(flag) ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleFlagToggle(flag)}
-                    className="text-xs sm:text-sm min-h-[36px]"
+                    className="text-xs sm:text-sm "
                   >
                     -{flag}
                   </Button>
@@ -136,10 +136,10 @@ export default function RegexToGrepPage() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
-              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                 Example
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                 Clear
               </Button>
             </div>

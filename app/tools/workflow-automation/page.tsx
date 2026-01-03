@@ -294,7 +294,7 @@ export default function WorkflowAutomationPage() {
                               setSelectedWorkflowId(workflow.id);
                               setActiveTab("run");
                             }}
-                            className="text-xs sm:text-sm min-h-[36px]"
+                            className="text-xs sm:text-sm "
                           >
                             Run
                           </Button>

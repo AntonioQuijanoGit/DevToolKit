@@ -71,10 +71,10 @@ export default function RegexTesterPage() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
               <CardTitle className="text-base sm:text-lg font-semibold">Pattern</CardTitle>
               <div className="flex gap-2 flex-wrap">
-                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                   Example
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                   Clear
                 </Button>
               </div>
@@ -116,7 +116,7 @@ export default function RegexTesterPage() {
                   variant="ghost"
                   size="sm"
                   onClick={() => handlePatternSelect(p.pattern)}
-                  className="text-xs sm:text-sm min-h-[36px]"
+                  className="text-xs sm:text-sm "
                 >
                   {p.name}
                 </Button>

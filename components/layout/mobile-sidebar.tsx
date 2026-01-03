@@ -68,7 +68,7 @@ export function MobileSidebar() {
       <Button
         variant="ghost"
         size="icon"
-        className="md:hidden fixed top-3 left-3 sm:top-4 sm:left-4 sm:top-4 sm:left-4 z-50 min-h-[44px] min-w-[44px]"
+        className="md:hidden fixed top-4 left-4 z-50 min-h-[44px] min-w-[44px] shadow-lg"
         onClick={() => setOpen(true)}
         aria-label="Open navigation menu"
         aria-expanded={open}
@@ -93,7 +93,7 @@ export function MobileSidebar() {
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 h-screen w-[280px] sm:w-[300px] sm:w-64 border-r border-border bg-card overflow-y-auto z-50 md:hidden"
+              className="fixed left-0 top-0 h-screen w-[85vw] max-w-[320px] border-r border-border bg-card overflow-y-auto z-50 md:hidden"
               role="navigation"
               aria-label="Main navigation"
             >

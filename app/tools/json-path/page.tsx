@@ -113,10 +113,10 @@ export default function JSONPathPage() {
                 className="font-mono text-xs sm:text-sm min-h-[200px] resize-y"
               />
               <div className="flex gap-2 flex-wrap">
-                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                   Example
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                   Clear
                 </Button>
               </div>

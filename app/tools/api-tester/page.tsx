@@ -252,7 +252,7 @@ export default function APITesterPage() {
         icon={FileCode}
       />
 
-      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+      <div className="flex-1 p-4 sm:p-5 md:p-6 space-y-4 sm:space-y-5 overflow-auto pb-28 sm:pb-32">
         {/* Request Builder */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
@@ -265,15 +265,15 @@ export default function APITesterPage() {
                   variant="outline"
                   size="sm"
                   onClick={handleExample}
-                  className="text-xs sm:text-sm min-h-[36px]"
+                  className="text-xs sm:text-sm"
                 >
                   Example
                 </Button>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
-            <div className="p-3 sm:p-4 bg-muted bg-opacity-50 border border-border rounded-lg">
+          <CardContent className="space-y-4 sm:space-y-5 p-4 sm:p-6">
+            <div className="p-4 sm:p-5 bg-muted bg-opacity-50 border border-border rounded-lg">
               <div className="flex items-start gap-2">
                 <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500 bg-opacity-10 flex items-center justify-center mt-0.5">
                   <span className="text-[10px] text-blue-600 dark:text-blue-400">
@@ -397,7 +397,7 @@ export default function APITesterPage() {
                   variant="outline"
                   onClick={handleAddHeader}
                   size="sm"
-                  className="text-xs sm:text-sm min-h-[36px]"
+                  className="text-xs sm:text-sm"
                 >
                   + Add Header
                 </Button>

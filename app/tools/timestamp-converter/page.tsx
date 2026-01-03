@@ -89,15 +89,15 @@ export default function TimestampConverterPage() {
                     {activeTab === "timestamp" ? "Unix Timestamp" : "Date String"}
                   </CardTitle>
                   <div className="flex gap-2 flex-wrap">
-                    <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                    <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                       Example
                     </Button>
                     {activeTab === "timestamp" && (
-                      <Button variant="outline" size="sm" onClick={handleNow} className="text-xs sm:text-sm min-h-[36px]">
+                      <Button variant="outline" size="sm" onClick={handleNow} className="text-xs sm:text-sm ">
                         Now
                       </Button>
                     )}
-                    <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                    <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                       Clear
                     </Button>
                   </div>

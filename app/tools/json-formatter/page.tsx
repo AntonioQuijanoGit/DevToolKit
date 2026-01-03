@@ -193,7 +193,7 @@ export default function JSONFormatterPage() {
         category="Formatter"
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6 p-4 sm:p-5 md:p-6 pb-28 sm:pb-32">
         {/* Input Panel */}
         <Card className="flex flex-col min-h-[400px] sm:min-h-[500px]">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
@@ -210,7 +210,7 @@ export default function JSONFormatterPage() {
                 variant="outline" 
                 size="sm" 
                 onClick={handleExample} 
-                className="text-xs sm:text-sm min-h-[36px]"
+                className="text-xs sm:text-sm"
                 aria-label="Load example JSON"
               >
                 Example
@@ -219,7 +219,7 @@ export default function JSONFormatterPage() {
                 variant="ghost" 
                 size="sm" 
                 onClick={handleClear} 
-                className="text-xs sm:text-sm min-h-[36px]"
+                className="text-xs sm:text-sm"
                 aria-label="Clear input and output"
               >
                 Clear

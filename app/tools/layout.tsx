@@ -49,13 +49,13 @@ export default function ToolsLayout({
       <Sidebar />
       <main 
         id="main-content"
-        className="flex-1 md:ml-60 lg:ml-64 overflow-y-auto focus:outline-none scroll-smooth"
+        className="flex-1 md:ml-60 lg:ml-64 overflow-y-auto focus:outline-none scroll-smooth w-full"
         role="main"
         aria-label="Main content"
         tabIndex={-1}
       >
         {currentToolId && (
-          <div className="p-3 sm:p-4 sm:p-5 md:p-6 pb-0">
+          <div className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 pb-2">
             <ContextualSuggestions currentToolId={currentToolId} />
           </div>
         )}

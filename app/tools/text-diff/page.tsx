@@ -63,7 +63,7 @@ export default function TextDiffPage() {
                   variant={diffMode === "words" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setDiffMode("words")}
-                  className="text-xs sm:text-sm min-h-[36px]"
+                  className="text-xs sm:text-sm "
                 >
                   Words
                 </Button>
@@ -71,7 +71,7 @@ export default function TextDiffPage() {
                   variant={diffMode === "lines" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setDiffMode("lines")}
-                  className="text-xs sm:text-sm min-h-[36px]"
+                  className="text-xs sm:text-sm "
                 >
                   Lines
                 </Button>
@@ -85,10 +85,10 @@ export default function TextDiffPage() {
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Text 1</CardTitle>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm ">
                   Example
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                   Clear
                 </Button>
               </div>
@@ -106,7 +106,7 @@ export default function TextDiffPage() {
           <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Text 2</CardTitle>
-              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">
                 Clear
               </Button>
             </CardHeader>

@@ -70,7 +70,7 @@ export default function ImageToBase64Page() {
           <Card className="min-h-[300px] sm:min-h-[400px]">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
               <CardTitle className="text-base sm:text-lg font-semibold">Preview</CardTitle>
-              {imageUrl && <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">Clear</Button>}
+              {imageUrl && <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm ">Clear</Button>}
             </CardHeader>
             <CardContent className="p-4 sm:p-6">
               {imageUrl ? (

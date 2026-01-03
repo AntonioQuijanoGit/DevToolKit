@@ -100,7 +100,7 @@ export default function Base64Page() {
                 <div className="flex gap-2 flex-wrap">
                   {activeTab === "encode" && (
                     <label className="cursor-pointer">
-                      <Button variant="outline" size="sm" asChild className="text-xs sm:text-sm min-h-[36px]">
+                      <Button variant="outline" size="sm" asChild className="text-xs sm:text-sm">
                         <span>Upload</span>
                       </Button>
                       <input
@@ -110,10 +110,10 @@ export default function Base64Page() {
                       />
                     </label>
                   )}
-                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm">
                     Example
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm">
                     Clear
                   </Button>
                 </div>
