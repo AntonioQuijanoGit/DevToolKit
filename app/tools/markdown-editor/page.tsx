@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FileText } from "lucide-react";
 import { ToolHeader } from "@/components/layout/tool-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -46,9 +46,9 @@ export default function MarkdownEditorPage() {
   const [markdown, setMarkdown] = useState(markdownExample);
   const [html, setHtml] = useState("");
 
-  const convertToHTML = () => {
+  const convertToHTML = (md: string) => {
     // Simple markdown to HTML converter
-    let html = markdown
+    let converted = md
       .replace(/^# (.*$)/gim, "<h1>$1</h1>")
       .replace(/^## (.*$)/gim, "<h2>$1</h2>")
       .replace(/^### (.*$)/gim, "<h3>$1</h3>")
@@ -62,8 +62,18 @@ export default function MarkdownEditorPage() {
       .replace(/^- (.*$)/gim, "<li>$1</li>")
       .replace(/\n/g, "<br>");
 
-    setHtml(html);
+    return converted;
   };
+
+  // Auto-convert markdown to HTML whenever markdown changes
+  useEffect(() => {
+    if (markdown.trim()) {
+      const converted = convertToHTML(markdown);
+      setHtml(converted);
+    } else {
+      setHtml("");
+    }
+  }, [markdown]);
 
   const handleClear = () => {
     setMarkdown("");
@@ -82,37 +92,33 @@ export default function MarkdownEditorPage() {
         icon={FileText}
       />
 
-      <div className="flex-1 grid grid-cols-2 gap-4 p-6 overflow-hidden">
-        <Card className="flex flex-col overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>Markdown</CardTitle>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleExample}>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Markdown</CardTitle>
+            <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                 Example
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleClear}>
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                 Clear
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="flex-1 overflow-hidden">
+          <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
             <Textarea
               value={markdown}
-              onChange={(e) => {
-                setMarkdown(e.target.value);
-                convertToHTML();
-              }}
+              onChange={(e) => setMarkdown(e.target.value)}
               placeholder="Write your markdown here..."
-              className="h-full font-mono text-sm resize-none"
-              onKeyUp={convertToHTML}
+              className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
             />
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>Preview</CardTitle>
-            <div className="flex gap-2">
+        <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Preview</CardTitle>
+            <div className="flex gap-2 flex-wrap">
               {html && <CopyButton text={html} />}
               {html && (
                 <DownloadButton
@@ -123,15 +129,15 @@ export default function MarkdownEditorPage() {
               )}
             </div>
           </CardHeader>
-          <CardContent className="flex-1 overflow-auto p-4">
+          <CardContent className="flex-1 overflow-auto p-4 sm:p-6">
             {html ? (
               <div
-                className="prose prose-invert max-w-none"
+                className="prose prose-invert max-w-none text-xs sm:text-sm"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             ) : (
-              <div className="h-full flex items-center justify-center text-muted-foreground">
-                <p className="text-sm">Start typing to see preview</p>
+              <div className="h-full flex items-center justify-center text-muted-foreground px-4">
+                <p className="text-xs sm:text-sm text-center">Start typing to see preview</p>
               </div>
             )}
           </CardContent>

@@ -17,6 +17,7 @@ import {
 import { CopyButton } from "@/components/shared/copy-button";
 import { CodeBlock } from "@/components/shared/code-block";
 import { Badge } from "@/components/ui/badge";
+import { examples } from "@/lib/constants/examples";
 
 type DockerCommand = "run" | "build" | "exec" | "logs" | "compose";
 
@@ -30,6 +31,22 @@ export default function DockerBuilderPage() {
   const [name, setName] = useState("");
   const [dockerfile, setDockerfile] = useState("Dockerfile");
   const [context, setContext] = useState(".");
+
+  const handleExample = () => {
+    const example = examples["docker-builder"];
+    if (example && typeof example === "object") {
+      setImage(example.image || "");
+      if (example.ports && Array.isArray(example.ports)) {
+        setPorts(example.ports.join(","));
+      }
+      if (example.command) {
+        // Set command if it's a valid DockerCommand
+        if (["run", "build", "exec", "logs", "compose"].includes(example.command)) {
+          setCommand(example.command as DockerCommand);
+        }
+      }
+    }
+  };
 
   const generatedCommand = useMemo(() => {
     if (command === "run") {
@@ -90,14 +107,14 @@ export default function DockerBuilderPage() {
         icon={Container}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         <Card>
-          <CardHeader>
-            <CardTitle>Command Type</CardTitle>
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Command Type</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6">
             <Select value={command} onValueChange={(v) => setCommand(v as DockerCommand)}>
-              <SelectTrigger>
+              <SelectTrigger className="min-h-[44px]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -111,63 +128,70 @@ export default function DockerBuilderPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Parameters</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Parameters</CardTitle>
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                Example
+              </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               {command === "run" && (
                 <>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Image
                     </label>
                     <Input
                       value={image}
                       onChange={(e) => setImage(e.target.value)}
                       placeholder="nginx:latest"
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Ports (host:container, comma-separated)
                     </label>
                     <Input
                       value={ports}
                       onChange={(e) => setPorts(e.target.value)}
                       placeholder="8080:80, 3000:3000"
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Volumes (host:container, comma-separated)
                     </label>
                     <Input
                       value={volumes}
                       onChange={(e) => setVolumes(e.target.value)}
                       placeholder="/host:/container"
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Environment Variables (one per line)
                     </label>
                     <Textarea
                       value={envVars}
                       onChange={(e) => setEnvVars(e.target.value)}
                       placeholder="KEY=value"
-                      className="min-h-[100px]"
+                      className="min-h-[100px] text-xs sm:text-sm resize-y"
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Container Name
                     </label>
                     <Input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="my-container"
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -176,9 +200,9 @@ export default function DockerBuilderPage() {
                       id="detached"
                       checked={detached}
                       onChange={(e) => setDetached(e.target.checked)}
-                      className="rounded"
+                      className="rounded w-4 h-4"
                     />
-                    <label htmlFor="detached" className="text-sm">
+                    <label htmlFor="detached" className="text-xs sm:text-sm">
                       Detached mode (-d)
                     </label>
                   </div>
@@ -187,46 +211,50 @@ export default function DockerBuilderPage() {
               {command === "build" && (
                 <>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Image Name:Tag
                     </label>
                     <Input
                       value={image}
                       onChange={(e) => setImage(e.target.value)}
                       placeholder="myapp:1.0"
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Dockerfile Path
                     </label>
                     <Input
                       value={dockerfile}
                       onChange={(e) => setDockerfile(e.target.value)}
                       placeholder="Dockerfile"
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">
+                    <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                       Build Context
                     </label>
                     <Input
                       value={context}
                       onChange={(e) => setContext(e.target.value)}
                       placeholder="."
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   </div>
                 </>
               )}
               {(command === "exec" || command === "logs") && (
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">
+                  <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                     Container Name/ID
                   </label>
                   <Input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="container-name"
+                    className="min-h-[44px] text-sm sm:text-base"
                   />
                 </div>
               )}
@@ -234,15 +262,15 @@ export default function DockerBuilderPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Generated Command</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Generated Command</CardTitle>
               <CopyButton text={generatedCommand} />
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               <CodeBlock code={generatedCommand} language="bash" />
               <div className="mt-4 space-y-2">
-                <Badge variant="secondary">Explanation</Badge>
-                <p className="text-xs text-muted-foreground">
+                <Badge variant="secondary" className="text-[10px] sm:text-xs">Explanation</Badge>
+                <p className="text-[10px] sm:text-xs text-muted-foreground break-words">
                   {command === "run" && "Runs a container with specified options"}
                   {command === "build" && "Builds an image from Dockerfile"}
                   {command === "exec" && "Executes a command in running container"}
@@ -255,10 +283,12 @@ export default function DockerBuilderPage() {
         </div>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button variant="outline" onClick={handleClear} size="lg">
-          Clear
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button variant="outline" onClick={handleClear} size="lg" className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   );

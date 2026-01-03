@@ -99,73 +99,75 @@ export default function JSONPathPage() {
         icon={FileJson}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>JSON Input</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Textarea
-              value={json}
-              onChange={(e) => setJson(e.target.value)}
-              placeholder="Paste your JSON here..."
-              className="font-mono text-sm min-h-[200px]"
-            />
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleExample}>
-                Example
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleClear}>
-                Clear
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">JSON Input</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+              <Textarea
+                value={json}
+                onChange={(e) => setJson(e.target.value)}
+                placeholder="Paste your JSON here..."
+                className="font-mono text-xs sm:text-sm min-h-[200px] resize-y"
+              />
+              <div className="flex gap-2 flex-wrap">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                  Example
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                  Clear
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>JSONPath Expression</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Input
-              value={path}
-              onChange={(e) => setPath(e.target.value)}
-              placeholder="$ or $.key or $.array[*]"
-              className="font-mono"
-            />
-            <div className="text-xs text-muted-foreground space-y-1">
-              <p>Examples:</p>
-              <ul className="list-disc list-inside space-y-1 ml-2">
-                <li><code>$</code> - Root object</li>
-                <li><code>$.key</code> - Access property</li>
-                <li><code>$.array[*]</code> - All array items</li>
-                <li><code>$.users[0]</code> - First array item</li>
-              </ul>
-            </div>
-            <Button onClick={handleTest} disabled={!json.trim() || !path.trim()}>
-              Test Path
-            </Button>
-          </CardContent>
-        </Card>
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">JSONPath Expression</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+              <Input
+                value={path}
+                onChange={(e) => setPath(e.target.value)}
+                placeholder="$ or $.key or $.array[*]"
+                className="font-mono min-h-[44px] text-sm sm:text-base"
+              />
+              <div className="text-[10px] sm:text-xs text-muted-foreground space-y-1">
+                <p className="font-medium">Examples:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li><code className="text-[10px] sm:text-xs">$</code> - Root object</li>
+                  <li><code className="text-[10px] sm:text-xs">$.key</code> - Access property</li>
+                  <li><code className="text-[10px] sm:text-xs">$.array[*]</code> - All array items</li>
+                  <li><code className="text-[10px] sm:text-xs">$.users[0]</code> - First array item</li>
+                </ul>
+              </div>
+              <Button onClick={handleTest} disabled={!json.trim() || !path.trim()} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+                Test Path
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
 
         {error ? (
           <Card>
-            <CardContent className="pt-6">
-              <div className="text-center py-8">
-                <p className="text-destructive font-semibold mb-2">Error</p>
-                <p className="text-sm text-muted-foreground">{error}</p>
+            <CardContent className="pt-6 p-4 sm:p-6">
+              <div className="text-center py-8 px-4">
+                <p className="text-destructive font-semibold mb-2 text-sm sm:text-base">Error</p>
+                <p className="text-xs sm:text-sm text-muted-foreground break-words">{error}</p>
               </div>
             </CardContent>
           </Card>
         ) : results.length > 0 ? (
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>
-                Results <Badge variant="secondary">{results.length}</Badge>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold flex items-center gap-2">
+                Results <Badge variant="secondary" className="text-[10px] sm:text-xs">{results.length}</Badge>
               </CardTitle>
               <CopyButton text={JSON.stringify(results, null, 2)} />
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               <CodeBlock
                 code={JSON.stringify(results, null, 2)}
                 language="json"

@@ -82,106 +82,108 @@ export default function RegexToGrepPage() {
         icon={Search}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="grid grid-cols-2 gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Input</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
-                  Regex Pattern
-                </label>
-                <Input
-                  value={regex}
-                  onChange={(e) => setRegex(e.target.value)}
-                  placeholder="^\\d{3}-\\d{3}-\\d{4}$"
-                  className="font-mono"
-                />
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <Card>
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            <div>
+              <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
+                Regex Pattern
+              </label>
+              <Input
+                value={regex}
+                onChange={(e) => setRegex(e.target.value)}
+                placeholder="^\\d{3}-\\d{3}-\\d{4}$"
+                className="font-mono min-h-[44px] text-sm sm:text-base"
+              />
+            </div>
+            <div>
+              <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
+                File/Directory
+              </label>
+              <Input
+                value={file}
+                onChange={(e) => setFile(e.target.value)}
+                placeholder="file.txt or ."
+                className="min-h-[44px] text-sm sm:text-base"
+              />
+            </div>
+            <div>
+              <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
+                Flags
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {["E", "P", "i", "r", "v"].map((flag) => (
+                  <Button
+                    key={flag}
+                    variant={flags.includes(flag) ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleFlagToggle(flag)}
+                    className="text-xs sm:text-sm min-h-[36px]"
+                  >
+                    -{flag}
+                  </Button>
+                ))}
               </div>
-              <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
-                  File/Directory
-                </label>
-                <Input
-                  value={file}
-                  onChange={(e) => setFile(e.target.value)}
-                  placeholder="file.txt or ."
-                />
+              <div className="mt-2 text-[10px] sm:text-xs text-muted-foreground space-y-1">
+                <div>-E: Extended regex</div>
+                <div>-P: Perl regex</div>
+                <div>-i: Ignore case</div>
+                <div>-r: Recursive</div>
+                <div>-v: Invert match</div>
               </div>
-              <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
-                  Flags
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {["E", "P", "i", "r", "v"].map((flag) => (
-                    <Button
-                      key={flag}
-                      variant={flags.includes(flag) ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleFlagToggle(flag)}
-                    >
-                      -{flag}
-                    </Button>
-                  ))}
-                </div>
-                <div className="mt-2 text-xs text-muted-foreground space-y-1">
-                  <div>-E: Extended regex</div>
-                  <div>-P: Perl regex</div>
-                  <div>-i: Ignore case</div>
-                  <div>-r: Recursive</div>
-                  <div>-v: Invert match</div>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleExample}>
-                  Example
-                </Button>
-                <Button variant="ghost" size="sm" onClick={handleClear}>
-                  Clear
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                Example
+              </Button>
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                Clear
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Grep Command</CardTitle>
-              {output && <CopyButton text={output} />}
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {output ? (
-                <>
-                  <CodeBlock code={output} language="bash" />
-                  <div>
-                    <Badge variant="secondary" className="mb-2">
-                      Explanation
-                    </Badge>
-                    <p className="text-xs text-muted-foreground">
-                      This grep command will search for the regex pattern in the specified file or directory.
-                      {flags.includes("E") && " Uses extended regex (egrep)."}
-                      {flags.includes("P") && " Uses Perl-compatible regex."}
-                      {flags.includes("i") && " Case-insensitive search."}
-                      {flags.includes("r") && " Recursively search directories."}
-                      {flags.includes("v") && " Invert match (show non-matching lines)."}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">
-                  <p className="text-sm">Enter a regex pattern and click Convert</p>
+        <Card>
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Grep Command</CardTitle>
+            {output && <CopyButton text={output} />}
+          </CardHeader>
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            {output ? (
+              <>
+                <CodeBlock code={output} language="bash" />
+                <div>
+                  <Badge variant="secondary" className="mb-2 text-[10px] sm:text-xs">
+                    Explanation
+                  </Badge>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground break-words">
+                    This grep command will search for the regex pattern in the specified file or directory.
+                    {flags.includes("E") && " Uses extended regex (egrep)."}
+                    {flags.includes("P") && " Uses Perl-compatible regex."}
+                    {flags.includes("i") && " Case-insensitive search."}
+                    {flags.includes("r") && " Recursively search directories."}
+                    {flags.includes("v") && " Invert match (show non-matching lines)."}
+                  </p>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+              </>
+            ) : (
+              <div className="h-full flex items-center justify-center text-muted-foreground px-4">
+                <p className="text-xs sm:text-sm text-center">Enter a regex pattern and click Convert</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button onClick={convertRegexToGrep} size="lg" disabled={!regex.trim()}>
-          Convert to Grep
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button onClick={convertRegexToGrep} size="lg" disabled={!regex.trim()} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Convert to Grep
+          </Button>
+        </div>
       </div>
     </div>
   );

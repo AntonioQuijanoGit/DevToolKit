@@ -17,6 +17,7 @@ import {
 import { CopyButton } from "@/components/shared/copy-button";
 import { CodeBlock } from "@/components/shared/code-block";
 import { Badge } from "@/components/ui/badge";
+import { examples } from "@/lib/constants/examples";
 
 type CommandType = "find" | "grep" | "git" | "docker" | "tar" | "chmod" | "ssh" | "curl";
 
@@ -29,6 +30,27 @@ export default function ShellCommandBuilderPage() {
   const [commandType, setCommandType] = useState<CommandType>("find");
   const [params, setParams] = useState<Record<string, string>>({});
   const [output, setOutput] = useState("");
+
+  const handleExample = () => {
+    const example = examples["shell-command-builder"];
+    if (example && typeof example === "object") {
+      if (example.command && ["find", "grep", "git", "docker", "tar", "chmod", "ssh", "curl"].includes(example.command)) {
+        setCommandType(example.command as CommandType);
+      }
+      if (example.options && Array.isArray(example.options)) {
+        const newParams: Record<string, string> = {};
+        example.options.forEach((opt, index) => {
+          if (index % 2 === 0 && example.options && example.options[index + 1]) {
+            newParams[opt] = example.options[index + 1];
+          }
+        });
+        setParams(newParams);
+      }
+      if (example.path) {
+        setParams({ ...params, directory: example.path });
+      }
+    }
+  };
 
   const commandConfig = useMemo(() => {
     const configs: Record<CommandType, { fields: Array<{ key: string; label: string; type: "text" | "number" | "select"; options?: string[] }>; template: (p: Record<string, string>) => string }> = {
@@ -224,17 +246,20 @@ export default function ShellCommandBuilderPage() {
         icon={Terminal}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         <Card>
-          <CardHeader>
-            <CardTitle>Command Type</CardTitle>
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Command Type</CardTitle>
+            <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              Example
+            </Button>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6">
             <Select value={commandType} onValueChange={(v) => {
               setCommandType(v as CommandType);
               setParams({});
             }}>
-              <SelectTrigger>
+              <SelectTrigger className="min-h-[44px]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -251,15 +276,15 @@ export default function ShellCommandBuilderPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle>Parameters</CardTitle>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+          <Card className="flex flex-col min-h-[400px] sm:min-h-[500px]">
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Parameters</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 overflow-auto">
               {commandConfig.fields.map((field) => (
                 <div key={field.key}>
-                  <label className="text-sm text-muted-foreground mb-2 block">
+                  <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                     {field.label}
                   </label>
                   {field.type === "select" ? (
@@ -267,7 +292,7 @@ export default function ShellCommandBuilderPage() {
                       value={params[field.key] || "none"}
                       onValueChange={(v) => handleFieldChange(field.key, v)}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="min-h-[44px]">
                         <SelectValue placeholder="Select..." />
                       </SelectTrigger>
                       <SelectContent>
@@ -287,6 +312,7 @@ export default function ShellCommandBuilderPage() {
                       value={params[field.key] || ""}
                       onChange={(e) => handleFieldChange(field.key, e.target.value)}
                       placeholder={`Enter ${field.label.toLowerCase()}...`}
+                      className="min-h-[44px] text-sm sm:text-base"
                     />
                   )}
                 </div>
@@ -294,19 +320,19 @@ export default function ShellCommandBuilderPage() {
             </CardContent>
           </Card>
 
-          <Card className="flex flex-col">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Generated Command</CardTitle>
+          <Card className="flex flex-col min-h-[400px] sm:min-h-[500px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Generated Command</CardTitle>
               {generatedCommand && <CopyButton text={generatedCommand} />}
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
-              <div className="space-y-4">
-                <div className="p-4 rounded-lg bg-accent border border-border">
-                  <pre className="text-sm font-mono">{generatedCommand}</pre>
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="p-3 sm:p-4 rounded-lg bg-accent border border-border">
+                  <pre className="text-xs sm:text-sm font-mono break-words whitespace-pre-wrap">{generatedCommand}</pre>
                 </div>
                 {output && (
                   <div>
-                    <Badge variant="secondary" className="mb-2">Final Command</Badge>
+                    <Badge variant="secondary" className="mb-2 text-[10px] sm:text-xs">Final Command</Badge>
                     <CodeBlock code={output} language="bash" />
                   </div>
                 )}
@@ -316,13 +342,15 @@ export default function ShellCommandBuilderPage() {
         </div>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button onClick={handleGenerate} size="lg">
-          Generate Command
-        </Button>
-        <Button variant="outline" onClick={handleClear} size="lg">
-          Clear
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
+          <Button onClick={handleGenerate} size="lg" className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Generate Command
+          </Button>
+          <Button variant="outline" onClick={handleClear} size="lg" className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   );

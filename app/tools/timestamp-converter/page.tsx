@@ -9,12 +9,24 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/shared/copy-button";
 import { format, parseISO, isValid } from "date-fns";
+import { examples } from "@/lib/constants/examples";
 
 export default function TimestampConverterPage() {
   const [timestamp, setTimestamp] = useState("");
   const [dateString, setDateString] = useState("");
   const [activeTab, setActiveTab] = useState<"timestamp" | "date">("timestamp");
   const [converted, setConverted] = useState<string>("");
+
+  const handleExample = () => {
+    const example = examples["timestamp-converter"];
+    if (example && typeof example === "object") {
+      if (activeTab === "timestamp") {
+        setTimestamp(example.timestamp?.toString() || Date.now().toString());
+      } else {
+        setDateString(new Date(example.timestamp || Date.now()).toISOString());
+      }
+    }
+  };
 
   useEffect(() => {
     if (activeTab === "timestamp" && timestamp) {
@@ -62,60 +74,64 @@ export default function TimestampConverterPage() {
         icon={Calendar}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "timestamp" | "date")} className="h-full flex flex-col">
-          <TabsList className="mb-4">
-            <TabsTrigger value="timestamp">Timestamp → Date</TabsTrigger>
-            <TabsTrigger value="date">Date → Timestamp</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="timestamp" className="text-xs sm:text-sm">Timestamp → Date</TabsTrigger>
+            <TabsTrigger value="date" className="text-xs sm:text-sm">Date → Timestamp</TabsTrigger>
           </TabsList>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
             <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>
+              <CardHeader className="p-4 sm:p-6 border-b">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                  <CardTitle className="text-base sm:text-lg font-semibold">
                     {activeTab === "timestamp" ? "Unix Timestamp" : "Date String"}
                   </CardTitle>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
+                    <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                      Example
+                    </Button>
                     {activeTab === "timestamp" && (
-                      <Button variant="outline" size="sm" onClick={handleNow}>
+                      <Button variant="outline" size="sm" onClick={handleNow} className="text-xs sm:text-sm min-h-[36px]">
                         Now
                       </Button>
                     )}
-                    <Button variant="ghost" size="sm" onClick={handleClear}>
+                    <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                       Clear
                     </Button>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 {activeTab === "timestamp" ? (
                   <Input
                     value={timestamp}
                     onChange={(e) => setTimestamp(e.target.value)}
                     placeholder="1699123456 or 1699123456789"
-                    className="font-mono"
+                    className="font-mono min-h-[44px] text-sm sm:text-base"
                   />
                 ) : (
                   <Input
                     type="datetime-local"
                     value={dateString}
                     onChange={(e) => setDateString(e.target.value)}
+                    className="min-h-[44px] text-sm sm:text-base"
                   />
                 )}
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">
                   {activeTab === "timestamp" ? "Converted Date" : "Unix Timestamp"}
                 </CardTitle>
                 {converted && <CopyButton text={converted} />}
               </CardHeader>
-              <CardContent>
-                <div className="p-4 rounded-lg bg-accent border border-border">
-                  <p className="font-mono text-lg">{converted || "Enter value to convert"}</p>
+              <CardContent className="p-4 sm:p-6">
+                <div className="p-3 sm:p-4 rounded-lg bg-accent border border-border">
+                  <p className="font-mono text-sm sm:text-base md:text-lg break-words">{converted || "Enter value to convert"}</p>
                 </div>
               </CardContent>
             </Card>

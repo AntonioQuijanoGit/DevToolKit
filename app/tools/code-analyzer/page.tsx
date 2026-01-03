@@ -16,6 +16,7 @@ import { analyzeCode, type AnalysisResult, type CodeIssue } from "@/lib/utils/co
 import { useHistoryStore } from "@/lib/store/history-store";
 import { useToast } from "@/lib/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { examples } from "@/lib/constants/examples";
 
 export default function CodeAnalyzerPage() {
   const [code, setCode] = useState("");
@@ -23,6 +24,13 @@ export default function CodeAnalyzerPage() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const addHistory = useHistoryStore((state) => state.addHistory);
   const { toast } = useToast();
+
+  const handleExample = () => {
+    const example = examples["code-analyzer"];
+    if (example && typeof example === "string") {
+      setCode(example);
+    }
+  };
 
   const handleAnalyze = () => {
     if (!code.trim()) {
@@ -84,45 +92,47 @@ export default function CodeAnalyzerPage() {
         icon={Code2}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Code Input</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Select value={language} onValueChange={setLanguage}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select language" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto-detect</SelectItem>
-                  <SelectItem value="javascript">JavaScript</SelectItem>
-                  <SelectItem value="typescript">TypeScript</SelectItem>
-                  <SelectItem value="json">JSON</SelectItem>
-                  <SelectItem value="sql">SQL</SelectItem>
-                </SelectContent>
-              </Select>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <Card className="min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Code Input</CardTitle>
+            <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              Example
+            </Button>
+          </CardHeader>
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger className="min-h-[44px]">
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">Auto-detect</SelectItem>
+                <SelectItem value="javascript">JavaScript</SelectItem>
+                <SelectItem value="typescript">TypeScript</SelectItem>
+                <SelectItem value="json">JSON</SelectItem>
+                <SelectItem value="sql">SQL</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Textarea
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                placeholder="Paste your code here..."
-                className="font-mono min-h-[400px]"
-              />
+            <Textarea
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="Paste your code here..."
+              className="font-mono min-h-[300px] sm:min-h-[400px] text-xs sm:text-sm resize-y"
+            />
 
-              <Button onClick={handleAnalyze} className="w-full" size="lg">
-                <Sparkles className="h-4 w-4 mr-2" />
-                Analyze Code
-              </Button>
-            </CardContent>
-          </Card>
+            <Button onClick={handleAnalyze} className="w-full min-h-[44px] text-sm sm:text-base" size="lg">
+              <Sparkles className="h-4 w-4 mr-2" />
+              Analyze Code
+            </Button>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Analysis Results</CardTitle>
-            </CardHeader>
-            <CardContent>
+        <Card className="min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Analysis Results</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 sm:p-6 overflow-auto">
               {!result ? (
                 <EmptyState
                   icon={Code2}
@@ -138,12 +148,12 @@ export default function CodeAnalyzerPage() {
               ) : (
                 <div className="space-y-4">
                   {/* Score */}
-                  <div className="p-4 rounded-lg bg-accent">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Code Quality Score</span>
+                  <div className="p-3 sm:p-4 rounded-lg bg-accent">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                      <span className="text-xs sm:text-sm font-medium">Code Quality Score</span>
                       <Badge
                         variant={result.score >= 80 ? "default" : result.score >= 60 ? "secondary" : "destructive"}
-                        className="text-lg px-3 py-1"
+                        className="text-sm sm:text-base md:text-lg px-2 sm:px-3 py-1"
                       >
                         {result.score}/100
                       </Badge>
@@ -162,30 +172,30 @@ export default function CodeAnalyzerPage() {
 
                   {/* Summary */}
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="p-3 rounded-lg bg-destructive/10 text-center">
-                      <div className="text-2xl font-bold text-destructive">{result.summary.errors}</div>
-                      <div className="text-xs text-muted-foreground">Errors</div>
+                    <div className="p-2 sm:p-3 rounded-lg bg-destructive/10 text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-destructive">{result.summary.errors}</div>
+                      <div className="text-[10px] sm:text-xs text-muted-foreground">Errors</div>
                     </div>
-                    <div className="p-3 rounded-lg bg-yellow-500/10 text-center">
-                      <div className="text-2xl font-bold text-yellow-500">{result.summary.warnings}</div>
-                      <div className="text-xs text-muted-foreground">Warnings</div>
+                    <div className="p-2 sm:p-3 rounded-lg bg-yellow-500/10 text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-yellow-500">{result.summary.warnings}</div>
+                      <div className="text-[10px] sm:text-xs text-muted-foreground">Warnings</div>
                     </div>
-                    <div className="p-3 rounded-lg bg-blue-500/10 text-center">
-                      <div className="text-2xl font-bold text-blue-500">{result.summary.suggestions}</div>
-                      <div className="text-xs text-muted-foreground">Suggestions</div>
+                    <div className="p-2 sm:p-3 rounded-lg bg-blue-500/10 text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-blue-500">{result.summary.suggestions}</div>
+                      <div className="text-[10px] sm:text-xs text-muted-foreground">Suggestions</div>
                     </div>
                   </div>
 
                   {/* Issues */}
                   {result.issues.length > 0 && (
                     <div className="space-y-2">
-                      <h4 className="font-semibold text-sm">Issues Found</h4>
-                      <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                      <h4 className="font-semibold text-xs sm:text-sm">Issues Found</h4>
+                      <div className="space-y-2 max-h-[300px] sm:max-h-[400px] overflow-y-auto">
                         {result.issues.map((issue, index) => (
                           <div
                             key={index}
                             className={cn(
-                              "p-3 rounded-lg border",
+                              "p-2 sm:p-3 rounded-lg border",
                               {
                                 "border-destructive bg-destructive/5": issue.type === "error",
                                 "border-yellow-500 bg-yellow-500/5": issue.type === "warning",
@@ -196,17 +206,17 @@ export default function CodeAnalyzerPage() {
                           >
                             <div className="flex items-start gap-2">
                               {getIssueIcon(issue.type)}
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-sm font-medium">{issue.message}</span>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex flex-wrap items-center gap-2 mb-1">
+                                  <span className="text-xs sm:text-sm font-medium break-words">{issue.message}</span>
                                   {issue.line && (
-                                    <Badge variant="outline" className="text-xs">
+                                    <Badge variant="outline" className="text-[10px] sm:text-xs">
                                       Line {issue.line}
                                     </Badge>
                                   )}
                                   <Badge
                                     variant="outline"
-                                    className={cn("text-xs", {
+                                    className={cn("text-[10px] sm:text-xs", {
                                       "border-red-500": issue.severity === "high",
                                       "border-yellow-500": issue.severity === "medium",
                                       "border-blue-500": issue.severity === "low",
@@ -216,7 +226,7 @@ export default function CodeAnalyzerPage() {
                                   </Badge>
                                 </div>
                                 {issue.suggestion && (
-                                  <p className="text-xs text-muted-foreground mt-1">
+                                  <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 break-words">
                                     💡 {issue.suggestion}
                                   </p>
                                 )}
@@ -229,10 +239,10 @@ export default function CodeAnalyzerPage() {
                   )}
 
                   {result.issues.length === 0 && (
-                    <div className="text-center py-8">
-                      <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                      <p className="font-semibold">No issues found!</p>
-                      <p className="text-sm text-muted-foreground mt-1">
+                    <div className="text-center py-6 sm:py-8 px-4">
+                      <CheckCircle2 className="h-8 sm:h-12 w-8 sm:w-12 text-green-500 mx-auto mb-3 sm:mb-4" />
+                      <p className="font-semibold text-sm sm:text-base">No issues found!</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                         Your code looks good 👍
                       </p>
                     </div>

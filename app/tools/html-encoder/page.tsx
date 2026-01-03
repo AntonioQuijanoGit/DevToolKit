@@ -10,11 +10,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { encode, decode } from "html-entities";
+import { examples } from "@/lib/constants/examples";
 
 export default function HTMLEncoderPage() {
   const [activeTab, setActiveTab] = useState<"encode" | "decode">("encode");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+
+  const handleExample = () => {
+    const example = examples["html-encoder"];
+    if (example && typeof example === "object") {
+      if (activeTab === "encode") {
+        setInput(example.encode || "");
+      } else {
+        setInput(example.decode || "");
+      }
+    }
+  };
 
   const handleEncode = () => {
     try {
@@ -47,22 +59,27 @@ export default function HTMLEncoderPage() {
         icon={Code}
       />
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-3 sm:p-4 md:p-6">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "encode" | "decode")} className="h-full flex flex-col">
-          <TabsList className="mb-4">
+          <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="encode">Encode</TabsTrigger>
             <TabsTrigger value="decode">Decode</TabsTrigger>
           </TabsList>
 
-          <div className="flex-1 grid grid-cols-2 gap-4 overflow-hidden">
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Input</CardTitle>
-                <Button variant="ghost" size="sm" onClick={handleClear}>
-                  Clear
-                </Button>
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-hidden">
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                    Example
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                    Clear
+                  </Button>
+                </div>
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -71,20 +88,20 @@ export default function HTMLEncoderPage() {
                       ? "Enter text to encode..."
                       : "Enter HTML entities to decode..."
                   }
-                  className="h-full font-mono text-sm resize-none"
+                  className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
                 />
               </CardContent>
             </Card>
 
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Output</CardTitle>
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Output</CardTitle>
                 {output && <CopyButton text={output} />}
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 {output ? (
-                  <div className="h-full overflow-auto p-4">
-                    <pre className="text-sm font-mono whitespace-pre-wrap break-words">
+                  <div className="h-full overflow-auto">
+                    <pre className="text-xs sm:text-sm font-mono whitespace-pre-wrap break-words">
                       {output}
                     </pre>
                   </div>
@@ -105,14 +122,17 @@ export default function HTMLEncoderPage() {
         </Tabs>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button
-          onClick={activeTab === "encode" ? handleEncode : handleDecode}
-          size="lg"
-          disabled={!input.trim()}
-        >
-          {activeTab === "encode" ? "Encode" : "Decode"}
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button
+            onClick={activeTab === "encode" ? handleEncode : handleDecode}
+            size="lg"
+            disabled={!input.trim()}
+            className="w-full sm:w-auto min-w-[120px] min-h-[44px] text-sm sm:text-base"
+          >
+            {activeTab === "encode" ? "Encode" : "Decode"}
+          </Button>
+        </div>
       </div>
     </div>
   );

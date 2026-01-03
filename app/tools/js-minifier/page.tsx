@@ -12,12 +12,20 @@ import { CodeBlock } from "@/components/shared/code-block";
 import { EmptyState } from "@/components/shared/empty-state";
 import { minifyJS, beautifyJS } from "@/lib/utils/js-minifier";
 import { useHistoryStore } from "@/lib/store/history-store";
+import { examples } from "@/lib/constants/examples";
 
 export default function JSMinifierPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [activeTab, setActiveTab] = useState<"minify" | "beautify">("minify");
   const addHistory = useHistoryStore((state) => state.addHistory);
+
+  const handleExample = () => {
+    const example = examples["js-minifier"];
+    if (example && typeof example === "string") {
+      setInput(example);
+    }
+  };
 
   const handleMinify = () => {
     if (!input.trim()) return;
@@ -66,46 +74,52 @@ export default function JSMinifierPage() {
         icon={FileCode}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "minify" | "beautify")}>
-          <TabsList>
-            <TabsTrigger value="minify">Minify</TabsTrigger>
-            <TabsTrigger value="beautify">Beautify</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="minify" className="text-xs sm:text-sm">Minify</TabsTrigger>
+            <TabsTrigger value="beautify" className="text-xs sm:text-sm">Beautify</TabsTrigger>
           </TabsList>
 
-          <TabsContent value={activeTab} className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="flex flex-col overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between pb-3">
-                  <CardTitle>Input</CardTitle>
+          <TabsContent value={activeTab} className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+              <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                      Example
+                    </Button>
+                  </div>
                 </CardHeader>
-                <CardContent className="flex-1 overflow-hidden space-y-4">
+                <CardContent className="flex-1 overflow-hidden space-y-3 sm:space-y-4 p-4 sm:p-6">
                   <Textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Enter JavaScript code..."
-                    className="min-h-[400px] font-mono"
+                    className="min-h-[300px] sm:min-h-[400px] font-mono text-xs sm:text-sm resize-y"
                   />
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Button
                       onClick={activeTab === "minify" ? handleMinify : handleBeautify}
                       disabled={!input.trim()}
+                      className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base"
                     >
                       {activeTab === "minify" ? "Minify" : "Beautify"}
                     </Button>
-                    <Button variant="ghost" onClick={handleClear}>
+                    <Button variant="ghost" onClick={handleClear} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
                       Clear
                     </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="flex flex-col overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between pb-3">
-                  <CardTitle>Output</CardTitle>
+              <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Output</CardTitle>
                   {output && <CopyButton text={output} />}
                 </CardHeader>
-                <CardContent className="flex-1 overflow-hidden">
+                <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                   {output ? (
                     <CodeBlock code={output} language="javascript" />
                   ) : (

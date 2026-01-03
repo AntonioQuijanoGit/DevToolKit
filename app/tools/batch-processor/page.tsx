@@ -204,76 +204,76 @@ export default function BatchProcessorPage() {
         icon={Upload}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Files & Operation</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Select value={operation} onValueChange={setOperation}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="format-json">Format JSON</SelectItem>
-                  <SelectItem value="minify-json">Minify JSON</SelectItem>
-                </SelectContent>
-              </Select>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <Card className="min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Files & Operation</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            <Select value={operation} onValueChange={setOperation}>
+              <SelectTrigger className="min-h-[44px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="format-json">Format JSON</SelectItem>
+                <SelectItem value="minify-json">Minify JSON</SelectItem>
+              </SelectContent>
+            </Select>
 
               <div
                 {...getRootProps()}
                 className={cn(
-                  "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+                  "border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors",
                   isDragActive
                     ? "border-primary bg-primary/5"
                     : "border-border hover:border-primary/50"
                 )}
               >
                 <input {...getInputProps()} />
-                <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <p className="text-sm font-medium mb-2">
+                <Upload className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-2 sm:mb-4 text-muted-foreground" />
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2">
                   {isDragActive ? "Drop files here" : "Drag & drop files here"}
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-[10px] sm:text-xs text-muted-foreground">
                   or click to select files
                 </p>
               </div>
 
               {files.length > 0 && (
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                    <span className="text-xs sm:text-sm font-medium">
                       {files.length} file(s) selected
                     </span>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => setFiles([])}
+                      className="text-xs sm:text-sm min-h-[36px]"
                     >
                       Clear all
                     </Button>
                   </div>
-                  <div className="space-y-1 max-h-[200px] overflow-y-auto">
+                  <div className="space-y-1 max-h-[150px] sm:max-h-[200px] overflow-y-auto">
                     {files.map((file, index) => (
                       <div
                         key={index}
                         className="flex items-center justify-between p-2 rounded bg-accent"
                       >
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <FileText className="h-4 w-4 flex-shrink-0" />
-                          <span className="text-sm truncate">{file.name}</span>
-                          <Badge variant="outline" className="text-xs flex-shrink-0">
+                          <FileText className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                          <span className="text-xs sm:text-sm truncate">{file.name}</span>
+                          <Badge variant="outline" className="text-[10px] sm:text-xs flex-shrink-0">
                             {(file.size / 1024).toFixed(1)} KB
                           </Badge>
                         </div>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-6 w-6"
+                          className="h-6 w-6 sm:h-7 sm:w-7"
                           onClick={() => removeFile(index)}
                         >
-                          <XCircle className="h-4 w-4" />
+                          <XCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     ))}
@@ -284,7 +284,7 @@ export default function BatchProcessorPage() {
               <Button
                 onClick={processFiles}
                 disabled={files.length === 0 || processing}
-                className="w-full"
+                className="w-full min-h-[44px] text-sm sm:text-base"
                 size="lg"
               >
                 {processing ? (
@@ -302,7 +302,7 @@ export default function BatchProcessorPage() {
 
               {processing && (
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
                     <span>Progress</span>
                     <span>{Math.round(progress)}%</span>
                   </div>
@@ -312,19 +312,17 @@ export default function BatchProcessorPage() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Results</CardTitle>
-                {processed.filter((p) => p.success).length > 0 && (
-                  <Button onClick={downloadAll} size="sm" variant="outline">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download All
-                  </Button>
-                )}
-              </div>
+          <Card className="min-h-[400px] sm:min-h-[500px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Results</CardTitle>
+              {processed.filter((p) => p.success).length > 0 && (
+                <Button onClick={downloadAll} size="sm" variant="outline" className="text-xs sm:text-sm min-h-[36px]">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download All
+                </Button>
+              )}
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6 overflow-auto">
               {processed.length === 0 ? (
                 <EmptyState
                   icon={FileText}
@@ -338,38 +336,39 @@ export default function BatchProcessorPage() {
                   ]}
                 />
               ) : (
-                <div className="space-y-2 max-h-[600px] overflow-y-auto">
+                <div className="space-y-2 max-h-[400px] sm:max-h-[600px] overflow-y-auto">
                   {processed.map((file) => (
                     <div
                       key={file.id}
                       className={cn(
-                        "p-3 rounded-lg border",
+                        "p-2 sm:p-3 rounded-lg border",
                         file.success
                           ? "border-green-500 bg-green-500/5"
                           : "border-red-500 bg-red-500/5"
                       )}
                     >
-                      <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-start justify-between mb-2 gap-2">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
                           {file.success ? (
-                            <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+                            <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
                           ) : (
-                            <XCircle className="h-4 w-4 text-red-500 flex-shrink-0" />
+                            <XCircle className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 flex-shrink-0" />
                           )}
-                          <span className="text-sm font-medium truncate">{file.name}</span>
+                          <span className="text-xs sm:text-sm font-medium truncate">{file.name}</span>
                         </div>
                         {file.success && (
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => downloadSingle(file)}
+                            className="h-7 w-7 sm:h-8 sm:w-8 p-0"
                           >
-                            <Download className="h-3 w-3" />
+                            <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                         )}
                       </div>
                       {file.success ? (
-                        <div className="text-xs text-muted-foreground space-y-1">
+                        <div className="text-[10px] sm:text-xs text-muted-foreground space-y-1 break-words">
                           <div>
                             Size: {file.originalSize} → {file.processedSize} bytes
                           </div>
@@ -379,7 +378,7 @@ export default function BatchProcessorPage() {
                           </div>
                         </div>
                       ) : (
-                        <p className="text-xs text-red-500">{file.error}</p>
+                        <p className="text-[10px] sm:text-xs text-red-500 break-words">{file.error}</p>
                       )}
                     </div>
                   ))}

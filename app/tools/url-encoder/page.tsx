@@ -70,28 +70,28 @@ export default function URLEncoderPage() {
         icon={Link}
       />
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-3 sm:p-4 md:p-6">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "encode" | "decode")} className="h-full flex flex-col">
-          <TabsList className="mb-4">
+          <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="encode">Encode</TabsTrigger>
             <TabsTrigger value="decode">Decode</TabsTrigger>
           </TabsList>
 
-          <div className="flex-1 grid grid-cols-2 gap-4 overflow-hidden">
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-hidden">
             {/* Input Panel */}
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Input</CardTitle>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={handleExample}>
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                     Example
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleClear}>
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                     Clear
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -100,28 +100,28 @@ export default function URLEncoderPage() {
                       ? "Enter URL to encode..."
                       : "Enter encoded URL to decode..."
                   }
-                  className="h-full font-mono text-sm resize-none"
+                  className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
                 />
               </CardContent>
             </Card>
 
             {/* Output Panel */}
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Output</CardTitle>
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Output</CardTitle>
                 {output && <CopyButton text={output} />}
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 {error ? (
                   <div className="h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-destructive font-semibold mb-2">Error</p>
-                      <p className="text-sm text-muted-foreground">{error}</p>
+                    <div className="text-center px-4">
+                      <p className="text-destructive font-semibold mb-2 text-sm sm:text-base">Error</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{error}</p>
                     </div>
                   </div>
                 ) : output ? (
-                  <div className="h-full overflow-auto p-4">
-                    <pre className="text-sm font-mono whitespace-pre-wrap break-words">
+                  <div className="h-full overflow-auto">
+                    <pre className="text-xs sm:text-sm font-mono whitespace-pre-wrap break-words">
                       {output}
                     </pre>
                   </div>
@@ -143,13 +143,16 @@ export default function URLEncoderPage() {
       </div>
 
       {/* Action Bar */}
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button
-          onClick={activeTab === "encode" ? handleEncode : handleDecode}
-          size="lg"
-        >
-          {activeTab === "encode" ? "Encode" : "Decode"}
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button
+            onClick={activeTab === "encode" ? handleEncode : handleDecode}
+            size="lg"
+            className="w-full sm:w-auto min-w-[120px] min-h-[44px] text-sm sm:text-base"
+          >
+            {activeTab === "encode" ? "Encode" : "Decode"}
+          </Button>
+        </div>
       </div>
     </div>
   );

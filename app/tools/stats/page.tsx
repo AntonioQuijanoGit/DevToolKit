@@ -66,57 +66,57 @@ export default function StatsPage() {
         icon={BarChart3}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground">
                 Total Usage
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{mounted ? totalUsage : 0}</div>
-              <p className="text-xs text-muted-foreground mt-1">tool executions</p>
+            <CardContent className="p-4 sm:p-6">
+              <div className="text-2xl sm:text-3xl font-bold">{mounted ? totalUsage : 0}</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">tool executions</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground">
                 Tools Used
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{mounted ? stats.length : 0}</div>
-              <p className="text-xs text-muted-foreground mt-1">different tools</p>
+            <CardContent className="p-4 sm:p-6">
+              <div className="text-2xl sm:text-3xl font-bold">{mounted ? stats.length : 0}</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">different tools</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground">
                 Available Tools
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{tools.length}</div>
-              <p className="text-xs text-muted-foreground mt-1">total tools</p>
+            <CardContent className="p-4 sm:p-6">
+              <div className="text-2xl sm:text-3xl font-bold">{tools.length}</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">total tools</p>
             </CardContent>
           </Card>
         </div>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
-          <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="heatmap">Activity Heatmap</TabsTrigger>
-            <TabsTrigger value="trends">Trends</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
+            <TabsTrigger value="heatmap" className="text-xs sm:text-sm">Activity Heatmap</TabsTrigger>
+            <TabsTrigger value="trends" className="text-xs sm:text-sm">Trends</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="overview" className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               <Card>
-                <CardHeader>
-                  <CardTitle>Most Used Tools</CardTitle>
+                <CardHeader className="p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Most Used Tools</CardTitle>
                 </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               {!mounted ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">Loading...</p>
@@ -127,23 +127,23 @@ export default function StatsPage() {
                   <p className="text-xs mt-2">Start using tools to see statistics</p>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {topTools.map((stat, index) => {
                     const Icon = stat.tool?.icon;
                     const percentage = totalUsage > 0 ? (stat.count / totalUsage) * 100 : 0;
                     return (
                       <div key={stat.toolId} className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <Badge variant="outline" className="w-8 justify-center">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                          <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                            <Badge variant="outline" className="w-7 sm:w-8 justify-center text-[10px] sm:text-xs">
                               {index + 1}
                             </Badge>
-                            {Icon && <Icon className="h-4 w-4" />}
-                            <span className="font-medium">{stat.tool?.name || stat.toolId}</span>
+                            {Icon && <Icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />}
+                            <span className="font-medium text-xs sm:text-sm truncate">{stat.tool?.name || stat.toolId}</span>
                           </div>
                           <div className="text-right">
-                            <div className="font-semibold">{stat.count}</div>
-                            <div className="text-xs text-muted-foreground">
+                            <div className="font-semibold text-xs sm:text-sm">{stat.count}</div>
+                            <div className="text-[10px] sm:text-xs text-muted-foreground">
                               {format(new Date(stat.lastUsed), "MMM d, HH:mm")}
                             </div>
                           </div>
@@ -165,31 +165,31 @@ export default function StatsPage() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Usage Distribution</CardTitle>
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Usage Distribution</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               {!mounted || topTools.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">No data available</p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {topTools.slice(0, 5).map((stat, index) => {
                     const percentage = totalUsage > 0 ? (stat.count / totalUsage) * 100 : 0;
                     return (
-                      <div key={stat.toolId} className="flex items-center gap-3">
-                        <div className="w-16 text-xs text-muted-foreground text-right">
+                      <div key={stat.toolId} className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-12 sm:w-16 text-[10px] sm:text-xs text-muted-foreground text-right">
                           {percentage.toFixed(1)}%
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1 gap-2">
+                            <span className="text-xs sm:text-sm font-medium truncate">
                               {stat.tool?.name || stat.toolId}
                             </span>
-                            <span className="text-xs text-muted-foreground">{stat.count}</span>
+                            <span className="text-[10px] sm:text-xs text-muted-foreground flex-shrink-0">{stat.count}</span>
                           </div>
-                          <div className="h-3 bg-accent rounded-full overflow-hidden">
+                          <div className="h-2 sm:h-3 bg-accent rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${percentage}%` }}
@@ -208,25 +208,25 @@ export default function StatsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="heatmap" className="space-y-6">
+        <TabsContent value="heatmap" className="space-y-3 sm:space-y-4 md:space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg font-semibold">
+                <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
                 Activity Heatmap
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               {Object.keys(heatmapData).length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">No activity data yet</p>
                   <p className="text-xs mt-2">Start using tools to see your activity heatmap</p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <div>
-                    <h4 className="text-sm font-medium mb-3">Hourly Distribution</h4>
-                    <div className="grid grid-cols-12 gap-1">
+                    <h4 className="text-xs sm:text-sm font-medium mb-2 sm:mb-3">Hourly Distribution</h4>
+                    <div className="grid grid-cols-6 sm:grid-cols-12 gap-1">
                       {Array.from({ length: 24 }).map((_, hour) => {
                         const count = hourlyDist[hour] || 0;
                         const maxCount = Math.max(...Object.values(hourlyDist), 1);
@@ -235,7 +235,7 @@ export default function StatsPage() {
                           <div key={hour} className="text-center">
                             <div
                               className={cn(
-                                "h-8 rounded mb-1 transition-colors",
+                                "h-6 sm:h-8 rounded mb-1 transition-colors",
                                 intensity === 0
                                   ? "bg-muted"
                                   : intensity < 0.3
@@ -246,7 +246,7 @@ export default function StatsPage() {
                               )}
                               title={`${hour}:00 - ${count} uses`}
                             />
-                            <div className="text-xs text-muted-foreground">{hour}</div>
+                            <div className="text-[10px] sm:text-xs text-muted-foreground">{hour}</div>
                           </div>
                         );
                       })}
@@ -254,8 +254,8 @@ export default function StatsPage() {
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium mb-3">Daily Distribution</h4>
-                    <div className="flex gap-2">
+                    <h4 className="text-xs sm:text-sm font-medium mb-2 sm:mb-3">Daily Distribution</h4>
+                    <div className="flex gap-1 sm:gap-2">
                       {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => {
                         const count = dailyDist[day] || 0;
                         const maxCount = Math.max(...Object.values(dailyDist), 1);
@@ -264,7 +264,7 @@ export default function StatsPage() {
                           <div key={day} className="flex-1 text-center">
                             <div
                               className={cn(
-                                "h-16 rounded mb-1 transition-colors flex items-center justify-center text-xs font-medium",
+                                "h-12 sm:h-16 rounded mb-1 transition-colors flex items-center justify-center text-[10px] sm:text-xs font-medium",
                                 intensity === 0
                                   ? "bg-muted text-muted-foreground"
                                   : intensity < 0.3
@@ -276,7 +276,7 @@ export default function StatsPage() {
                             >
                               {count}
                             </div>
-                            <div className="text-xs text-muted-foreground">{day}</div>
+                            <div className="text-[10px] sm:text-xs text-muted-foreground">{day}</div>
                           </div>
                         );
                       })}
@@ -288,22 +288,22 @@ export default function StatsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="trends" className="space-y-6">
+        <TabsContent value="trends" className="space-y-3 sm:space-y-4 md:space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5" />
+            <CardHeader className="p-4 sm:p-6 border-b">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg font-semibold">
+                <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
                 7-Day Trends
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               {trends.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">No trend data yet</p>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  <div className="flex items-end gap-2 h-48">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-end gap-1 sm:gap-2 h-32 sm:h-48">
                     {trends.map((trend, index) => {
                       const maxCount = Math.max(...trends.map((t) => t.count), 1);
                       const height = maxCount > 0 ? (trend.count / maxCount) * 100 : 0;
@@ -317,15 +317,15 @@ export default function StatsPage() {
                               className="w-full bg-primary rounded-t"
                             />
                           </div>
-                          <div className="text-xs text-muted-foreground mt-2 text-center">
+                          <div className="text-[10px] sm:text-xs text-muted-foreground mt-2 text-center">
                             {format(new Date(trend.date), "MMM d")}
                           </div>
-                          <div className="text-xs font-medium mt-1">{trend.count}</div>
+                          <div className="text-[10px] sm:text-xs font-medium mt-1">{trend.count}</div>
                         </div>
                       );
                     })}
                   </div>
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm">
                     <span className="text-muted-foreground">Total this week</span>
                     <span className="font-semibold">
                       {trends.reduce((sum, t) => sum + t.count, 0)} uses

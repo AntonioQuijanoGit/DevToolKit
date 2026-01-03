@@ -46,14 +46,14 @@ export default function ImageToBase64Page() {
         icon={Image}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         <Card>
-          <CardHeader>
-            <CardTitle>Upload Image</CardTitle>
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Upload Image</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6">
             <label className="cursor-pointer">
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="min-h-[44px] text-sm sm:text-base">
                 <span>Choose Image</span>
               </Button>
               <input
@@ -66,19 +66,19 @@ export default function ImageToBase64Page() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Preview</CardTitle>
-              {imageUrl && <Button variant="ghost" size="sm" onClick={handleClear}>Clear</Button>}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+          <Card className="min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Preview</CardTitle>
+              {imageUrl && <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">Clear</Button>}
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               {imageUrl ? (
-                <div className="flex items-center justify-center p-4 bg-accent rounded-lg">
+                <div className="flex items-center justify-center p-3 sm:p-4 bg-accent rounded-lg">
                   <img
                     src={imageUrl}
                     alt="Preview"
-                    className="max-w-full max-h-96 object-contain"
+                    className="max-w-full max-h-[200px] sm:max-h-96 object-contain rounded"
                   />
                 </div>
               ) : (
@@ -91,17 +91,17 @@ export default function ImageToBase64Page() {
             </CardContent>
           </Card>
 
-          <Card className="flex flex-col overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Base64</CardTitle>
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Base64</CardTitle>
               {base64 && <CopyButton text={base64} />}
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
               {base64 ? (
                 <Textarea
                   value={base64}
                   readOnly
-                  className="h-full font-mono text-xs resize-none"
+                  className="h-full font-mono text-[10px] sm:text-xs resize-none min-h-[200px]"
                 />
               ) : (
                 <EmptyState

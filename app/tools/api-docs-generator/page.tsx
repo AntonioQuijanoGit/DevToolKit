@@ -153,88 +153,88 @@ export default function APIDocsGeneratorPage() {
         icon={FileCode}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>API Configuration</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="text-sm font-medium mb-2 block">API Title</label>
-                <Input
-                  value={apiTitle}
-                  onChange={(e) => setApiTitle(e.target.value)}
-                  placeholder="My API"
-                />
-              </div>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <Card className="min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">API Configuration</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            <div>
+              <label className="text-xs sm:text-sm font-medium mb-2 block">API Title</label>
+              <Input
+                value={apiTitle}
+                onChange={(e) => setApiTitle(e.target.value)}
+                placeholder="My API"
+                className="min-h-[44px] text-sm sm:text-base"
+              />
+            </div>
 
-              <div>
-                <label className="text-sm font-medium mb-2 block">Version</label>
-                <Input
-                  value={apiVersion}
-                  onChange={(e) => setApiVersion(e.target.value)}
-                  placeholder="1.0.0"
-                />
-              </div>
+            <div>
+              <label className="text-xs sm:text-sm font-medium mb-2 block">Version</label>
+              <Input
+                value={apiVersion}
+                onChange={(e) => setApiVersion(e.target.value)}
+                placeholder="1.0.0"
+                className="min-h-[44px] text-sm sm:text-base"
+              />
+            </div>
 
-              <div>
-                <label className="text-sm font-medium mb-2 block">Base URL</label>
-                <Input
-                  value={baseUrl}
-                  onChange={(e) => setBaseUrl(e.target.value)}
-                  placeholder="https://api.example.com"
-                />
-              </div>
+            <div>
+              <label className="text-xs sm:text-sm font-medium mb-2 block">Base URL</label>
+              <Input
+                value={baseUrl}
+                onChange={(e) => setBaseUrl(e.target.value)}
+                placeholder="https://api.example.com"
+                className="min-h-[44px] text-sm sm:text-base"
+              />
+            </div>
 
-              <div>
-                <label className="text-sm font-medium mb-2 block">Output Format</label>
-                <Select value={outputFormat} onValueChange={(v: any) => setOutputFormat(v)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="openapi">OpenAPI 3.0</SelectItem>
-                    <SelectItem value="postman">Postman Collection</SelectItem>
-                    <SelectItem value="curl">cURL Commands</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div>
+              <label className="text-xs sm:text-sm font-medium mb-2 block">Output Format</label>
+              <Select value={outputFormat} onValueChange={(v: any) => setOutputFormat(v)}>
+                <SelectTrigger className="min-h-[44px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="openapi">OpenAPI 3.0</SelectItem>
+                  <SelectItem value="postman">Postman Collection</SelectItem>
+                  <SelectItem value="curl">cURL Commands</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium">Endpoints (JSON)</label>
-                  <Button variant="ghost" size="sm" onClick={loadExample}>
-                    Load Example
-                  </Button>
-                </div>
-                <Textarea
-                  value={endpointsJson}
-                  onChange={(e) => setEndpointsJson(e.target.value)}
-                  placeholder='[{"method":"GET","path":"/users","description":"Get users"}]'
-                  className="font-mono min-h-[300px]"
-                />
+            <div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-2">
+                <label className="text-xs sm:text-sm font-medium">Endpoints (JSON)</label>
+                <Button variant="ghost" size="sm" onClick={loadExample} className="text-xs sm:text-sm min-h-[36px]">
+                  Load Example
+                </Button>
               </div>
+              <Textarea
+                value={endpointsJson}
+                onChange={(e) => setEndpointsJson(e.target.value)}
+                placeholder='[{"method":"GET","path":"/users","description":"Get users"}]'
+                className="font-mono min-h-[200px] sm:min-h-[300px] text-xs sm:text-sm resize-y"
+              />
+            </div>
 
-              <Button onClick={handleGenerate} className="w-full" size="lg">
-                Generate Documentation
+            <Button onClick={handleGenerate} className="w-full min-h-[44px] text-sm sm:text-base" size="lg">
+              Generate Documentation
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Generated Documentation</CardTitle>
+            {output && (
+              <Button onClick={handleDownload} size="sm" variant="outline" className="text-xs sm:text-sm min-h-[36px]">
+                <Download className="h-4 w-4 mr-2" />
+                Download
               </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Generated Documentation</CardTitle>
-                {output && (
-                  <Button onClick={handleDownload} size="sm" variant="outline">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </Button>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent>
+            )}
+          </CardHeader>
+          <CardContent className="p-4 sm:p-6 overflow-auto">
               {!output ? (
                 <EmptyState
                   icon={FileCode}
@@ -249,8 +249,8 @@ export default function APIDocsGeneratorPage() {
                 />
               ) : (
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                    <span className="text-xs sm:text-sm font-medium">
                       {outputFormat === "openapi"
                         ? "OpenAPI Spec"
                         : outputFormat === "postman"

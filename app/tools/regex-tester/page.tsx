@@ -64,29 +64,29 @@ export default function RegexTesterPage() {
         icon={TestTube}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-hidden">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         {/* Pattern Input */}
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Pattern</CardTitle>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleExample}>
+          <CardHeader className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+              <CardTitle className="text-base sm:text-lg font-semibold">Pattern</CardTitle>
+              <div className="flex gap-2 flex-wrap">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                   Example
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleClear}>
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                   Clear
                 </Button>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-2">
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Input
                 value={pattern}
                 onChange={(e) => setPattern(e.target.value)}
                 placeholder="Enter regex pattern..."
-                className="font-mono"
+                className="font-mono flex-1 min-h-[44px] text-sm sm:text-base"
               />
               <div className="flex gap-1">
                 {["g", "i", "m"].map((flag) => (
@@ -101,6 +101,7 @@ export default function RegexTesterPage() {
                           : flags + flag
                       );
                     }}
+                    className="min-h-[44px] min-w-[44px] text-sm sm:text-base"
                   >
                     {flag}
                   </Button>
@@ -108,13 +109,14 @@ export default function RegexTesterPage() {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-muted-foreground">Common:</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">Common:</span>
               {commonPatterns.map((p) => (
                 <Button
                   key={p.name}
                   variant="ghost"
                   size="sm"
                   onClick={() => handlePatternSelect(p.pattern)}
+                  className="text-xs sm:text-sm min-h-[36px]"
                 >
                   {p.name}
                 </Button>
@@ -123,37 +125,37 @@ export default function RegexTesterPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4 flex-1 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           {/* Test String */}
-          <Card className="flex flex-col overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Test String</CardTitle>
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Test String</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
               <Textarea
                 value={testString}
                 onChange={(e) => setTestString(e.target.value)}
                 placeholder="Enter text to test against the pattern..."
-                className="h-full font-mono text-sm resize-none"
+                className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
               />
             </CardContent>
           </Card>
 
           {/* Results */}
-          <Card className="flex flex-col overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Matches ({matches.length})</CardTitle>
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Matches ({matches.length})</CardTitle>
               {matches.length > 0 && (
                 <CopyButton
                   text={matches.map((m) => m[0]).join("\n")}
                 />
               )}
             </CardHeader>
-            <CardContent className="flex-1 overflow-auto">
+            <CardContent className="flex-1 overflow-auto p-4 sm:p-6">
               {error ? (
-                <div className="text-center py-8">
-                  <p className="text-destructive font-semibold mb-2">Error</p>
-                  <p className="text-sm text-muted-foreground">{error}</p>
+                <div className="text-center py-8 px-4">
+                  <p className="text-destructive font-semibold mb-2 text-sm sm:text-base">Error</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{error}</p>
                 </div>
               ) : matches.length > 0 ? (
                 <div className="space-y-2">
@@ -162,14 +164,14 @@ export default function RegexTesterPage() {
                       key={index}
                       className="p-3 rounded-lg bg-accent border border-border"
                     >
-                      <div className="font-mono text-sm mb-1">
-                        <Badge variant="secondary" className="mr-2">
+                      <div className="font-mono text-xs sm:text-sm mb-1 break-words">
+                        <Badge variant="secondary" className="mr-2 text-[10px] sm:text-xs">
                           #{index + 1}
                         </Badge>
                         {match[0]}
                       </div>
                       {match.length > 1 && (
-                        <div className="text-xs text-muted-foreground mt-2">
+                        <div className="text-[10px] sm:text-xs text-muted-foreground mt-2 break-words">
                           Groups: {match.slice(1).map((g, i) => (
                             <span key={i} className="ml-2">
                               ${i + 1}: {g}

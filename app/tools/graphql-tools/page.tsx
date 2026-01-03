@@ -21,6 +21,7 @@ import {
 } from "@/lib/utils/graphql-utils";
 import { useHistoryStore } from "@/lib/store/history-store";
 import { useToast } from "@/lib/hooks/use-toast";
+import { examples } from "@/lib/constants/examples";
 
 export default function GraphQLToolsPage() {
   const [query, setQuery] = useState("");
@@ -32,6 +33,13 @@ export default function GraphQLToolsPage() {
   const [builderVars, setBuilderVars] = useState("");
   const addHistory = useHistoryStore((state) => state.addHistory);
   const { toast } = useToast();
+
+  const handleExample = () => {
+    const example = examples["graphql-tools"];
+    if (example && typeof example === "string") {
+      setQuery(example);
+    }
+  };
 
   const handleFormat = () => {
     if (!query.trim()) {
@@ -173,59 +181,60 @@ export default function GraphQLToolsPage() {
         icon={Network}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
-        <Tabs defaultValue="builder" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="builder">Query Builder</TabsTrigger>
-            <TabsTrigger value="formatter">Formatter</TabsTrigger>
-            <TabsTrigger value="validator">Validator</TabsTrigger>
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <Tabs defaultValue="builder" className="space-y-3 sm:space-y-4 md:space-y-6">
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="builder" className="text-xs sm:text-sm">Query Builder</TabsTrigger>
+            <TabsTrigger value="formatter" className="text-xs sm:text-sm">Formatter</TabsTrigger>
+            <TabsTrigger value="validator" className="text-xs sm:text-sm">Validator</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="builder" className="space-y-6">
+          <TabsContent value="builder" className="space-y-3 sm:space-y-4 md:space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Build GraphQL Query</CardTitle>
+              <CardHeader className="p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Build GraphQL Query</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Query Name</label>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Query Name</label>
                   <Input
                     value={builderName}
                     onChange={(e) => setBuilderName(e.target.value)}
                     placeholder="GetUsers"
+                    className="min-h-[44px] text-sm sm:text-base"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Fields (one per line)</label>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Fields (one per line)</label>
                   <Textarea
                     value={builderFields}
                     onChange={(e) => setBuilderFields(e.target.value)}
                     placeholder="id\nname\nemail"
-                    className="font-mono min-h-[200px]"
+                    className="font-mono min-h-[150px] sm:min-h-[200px] text-xs sm:text-sm resize-y"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">
                     Variables (optional, format: name:Type:required)
                   </label>
                   <Textarea
                     value={builderVars}
                     onChange={(e) => setBuilderVars(e.target.value)}
                     placeholder="id:ID:required\nlimit:Int"
-                    className="font-mono min-h-[100px]"
+                    className="font-mono min-h-[80px] sm:min-h-[100px] text-xs sm:text-sm resize-y"
                   />
                 </div>
 
-                <Button onClick={handleBuild} className="w-full">
+                <Button onClick={handleBuild} className="w-full min-h-[44px] text-sm sm:text-base">
                   Build Query
                 </Button>
 
                 {formatted && (
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Generated Query</span>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                      <span className="text-xs sm:text-sm font-medium">Generated Query</span>
                       <CopyButton text={formatted} />
                     </div>
                     <CodeBlock code={formatted} language="graphql" />
@@ -235,35 +244,38 @@ export default function GraphQLToolsPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="formatter" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Input Query</CardTitle>
+          <TabsContent value="formatter" className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+              <Card className="min-h-[400px] sm:min-h-[500px]">
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Input Query</CardTitle>
+                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                    Example
+                  </Button>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
                   <Textarea
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="query { users { id name } }"
-                    className="font-mono min-h-[400px]"
+                    className="font-mono min-h-[300px] sm:min-h-[400px] text-xs sm:text-sm resize-y"
                   />
-                  <div className="flex gap-2">
-                    <Button onClick={handleFormat} className="flex-1">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button onClick={handleFormat} className="flex-1 min-h-[44px] text-sm sm:text-base">
                       Format
                     </Button>
-                    <Button onClick={handleMinify} variant="outline" className="flex-1">
+                    <Button onClick={handleMinify} variant="outline" className="flex-1 min-h-[44px] text-sm sm:text-base">
                       Minify
                     </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Result</CardTitle>
+              <Card className="min-h-[400px] sm:min-h-[500px]">
+                <CardHeader className="p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Result</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4 sm:p-6 overflow-auto">
                   {!formatted && !minified ? (
                     <EmptyState
                       icon={Network}
@@ -271,11 +283,11 @@ export default function GraphQLToolsPage() {
                       description="Enter a query and format or minify it"
                     />
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {formatted && (
                         <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium">Formatted</span>
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-2">
+                            <span className="text-xs sm:text-sm font-medium">Formatted</span>
                             <CopyButton text={formatted} />
                           </div>
                           <CodeBlock code={formatted} language="graphql" />
@@ -283,8 +295,8 @@ export default function GraphQLToolsPage() {
                       )}
                       {minified && (
                         <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium">Minified</span>
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-2">
+                            <span className="text-xs sm:text-sm font-medium">Minified</span>
                             <CopyButton text={minified} />
                           </div>
                           <CodeBlock code={minified} language="graphql" />
@@ -297,30 +309,30 @@ export default function GraphQLToolsPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="validator" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Input Query</CardTitle>
+          <TabsContent value="validator" className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+              <Card className="min-h-[400px] sm:min-h-[500px]">
+                <CardHeader className="p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Input Query</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4 sm:p-6">
                   <Textarea
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="query { users { id name } }"
-                    className="font-mono min-h-[400px]"
+                    className="font-mono min-h-[300px] sm:min-h-[400px] text-xs sm:text-sm resize-y"
                   />
-                  <Button onClick={handleValidate} className="w-full mt-4">
+                  <Button onClick={handleValidate} className="w-full mt-3 sm:mt-4 min-h-[44px] text-sm sm:text-base">
                     Validate Query
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Validation Results</CardTitle>
+              <Card className="min-h-[400px] sm:min-h-[500px]">
+                <CardHeader className="p-4 sm:p-6 border-b">
+                  <CardTitle className="text-base sm:text-lg font-semibold">Validation Results</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4 sm:p-6 overflow-auto">
                   {!validation ? (
                     <EmptyState
                       icon={Network}
@@ -328,11 +340,11 @@ export default function GraphQLToolsPage() {
                       description="Enter a query and click 'Validate Query'"
                     />
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-center gap-2">
                         <Badge
                           variant={validation.valid ? "default" : "destructive"}
-                          className="text-lg px-3 py-1"
+                          className="text-sm sm:text-base md:text-lg px-2 sm:px-3 py-1"
                         >
                           {validation.valid ? "Valid" : "Invalid"}
                         </Badge>
@@ -340,12 +352,12 @@ export default function GraphQLToolsPage() {
 
                       {validation.errors.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-sm mb-2 text-destructive">
+                          <h4 className="font-semibold text-xs sm:text-sm mb-2 text-destructive">
                             Errors ({validation.errors.length})
                           </h4>
                           <ul className="space-y-1">
                             {validation.errors.map((error: string, index: number) => (
-                              <li key={index} className="text-sm text-destructive">
+                              <li key={index} className="text-xs sm:text-sm text-destructive break-words">
                                 • {error}
                               </li>
                             ))}
@@ -355,12 +367,12 @@ export default function GraphQLToolsPage() {
 
                       {validation.warnings.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-sm mb-2 text-yellow-500">
+                          <h4 className="font-semibold text-xs sm:text-sm mb-2 text-yellow-500">
                             Warnings ({validation.warnings.length})
                           </h4>
                           <ul className="space-y-1">
                             {validation.warnings.map((warning: string, index: number) => (
-                              <li key={index} className="text-sm text-yellow-500">
+                              <li key={index} className="text-xs sm:text-sm text-yellow-500 break-words">
                                 • {warning}
                               </li>
                             ))}
@@ -369,7 +381,7 @@ export default function GraphQLToolsPage() {
                       )}
 
                       {validation.valid && validation.errors.length === 0 && (
-                        <div className="text-center py-4 text-green-500">
+                        <div className="text-center py-4 text-green-500 text-sm sm:text-base">
                           ✓ Query is valid!
                         </div>
                       )}

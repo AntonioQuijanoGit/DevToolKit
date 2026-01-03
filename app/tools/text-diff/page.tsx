@@ -8,11 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/shared/copy-button";
 import { diffWords, diffLines, Change } from "diff";
+import { examples } from "@/lib/constants/examples";
 
 export default function TextDiffPage() {
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
   const [diffMode, setDiffMode] = useState<"words" | "lines">("words");
+
+  const handleExample = () => {
+    const example = examples["text-diff"];
+    if (example && typeof example === "object") {
+      setText1(example.text1 || "");
+      setText2(example.text2 || "");
+    }
+  };
 
   const diff = diffMode === "words" ? diffWords(text1, text2) : diffLines(text1, text2);
 
@@ -44,16 +53,17 @@ export default function TextDiffPage() {
         icon={FileDiff}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Comparison Mode</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+              <CardTitle className="text-base sm:text-lg font-semibold">Comparison Mode</CardTitle>
               <div className="flex gap-2">
                 <Button
                   variant={diffMode === "words" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setDiffMode("words")}
+                  className="text-xs sm:text-sm min-h-[36px]"
                 >
                   Words
                 </Button>
@@ -61,6 +71,7 @@ export default function TextDiffPage() {
                   variant={diffMode === "lines" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setDiffMode("lines")}
+                  className="text-xs sm:text-sm min-h-[36px]"
                 >
                   Lines
                 </Button>
@@ -69,37 +80,42 @@ export default function TextDiffPage() {
           </CardHeader>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="flex flex-col overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Text 1</CardTitle>
-              <Button variant="ghost" size="sm" onClick={handleClear}>
-                Clear
-              </Button>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Text 1</CardTitle>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                  Example
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                  Clear
+                </Button>
+              </div>
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
               <Textarea
                 value={text1}
                 onChange={(e) => setText1(e.target.value)}
                 placeholder="Enter first text..."
-                className="h-full font-mono text-sm resize-none"
+                className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
               />
             </CardContent>
           </Card>
 
-          <Card className="flex flex-col overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Text 2</CardTitle>
-              <Button variant="ghost" size="sm" onClick={handleClear}>
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Text 2</CardTitle>
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                 Clear
               </Button>
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
               <Textarea
                 value={text2}
                 onChange={(e) => setText2(e.target.value)}
                 placeholder="Enter second text..."
-                className="h-full font-mono text-sm resize-none"
+                className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
               />
             </CardContent>
           </Card>
@@ -107,12 +123,12 @@ export default function TextDiffPage() {
 
         {text1 || text2 ? (
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Diff Result</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Diff Result</CardTitle>
               <CopyButton text={JSON.stringify(diff, null, 2)} />
             </CardHeader>
-            <CardContent>
-              <div className="p-4 rounded-lg bg-accent border border-border font-mono text-sm whitespace-pre-wrap">
+            <CardContent className="p-4 sm:p-6">
+              <div className="p-3 sm:p-4 rounded-lg bg-accent border border-border font-mono text-xs sm:text-sm whitespace-pre-wrap break-words overflow-x-auto">
                 {renderDiff()}
               </div>
             </CardContent>

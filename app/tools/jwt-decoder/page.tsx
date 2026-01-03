@@ -68,28 +68,28 @@ export default function JWTDecoderPage() {
         icon={Key}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-hidden">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         {/* Input */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>JWT Token</CardTitle>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleExample}>
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">JWT Token</CardTitle>
+            <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                 Example
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleClear}>
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                 Clear
               </Button>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Paste your JWT token here..."
-              className="font-mono text-sm min-h-[100px]"
+              className="font-mono text-xs sm:text-sm min-h-[100px] resize-y"
             />
-            <Button onClick={handleDecode} className="mt-4" size="lg">
+            <Button onClick={handleDecode} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base" size="lg">
               Decode
             </Button>
           </CardContent>
@@ -98,23 +98,23 @@ export default function JWTDecoderPage() {
         {/* Output */}
         {error ? (
           <Card>
-            <CardContent className="pt-6">
-              <div className="text-center py-8">
-                <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-                <p className="text-destructive font-semibold mb-2">Error</p>
-                <p className="text-sm text-muted-foreground">{error}</p>
+            <CardContent className="pt-6 p-4 sm:p-6">
+              <div className="text-center py-8 px-4">
+                <AlertCircle className="h-10 w-10 sm:h-12 sm:w-12 text-destructive mx-auto mb-4" />
+                <p className="text-destructive font-semibold mb-2 text-sm sm:text-base">Error</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{error}</p>
               </div>
             </CardContent>
           </Card>
         ) : decoded ? (
-          <div className="grid grid-cols-3 gap-4 flex-1 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {/* Header */}
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Header</CardTitle>
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Header</CardTitle>
                 <CopyButton text={JSON.stringify(decoded.header, null, 2)} />
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 <CodeBlock
                   code={JSON.stringify(decoded.header, null, 2)}
                   language="json"
@@ -123,24 +123,24 @@ export default function JWTDecoderPage() {
             </Card>
 
             {/* Payload */}
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle className="flex items-center gap-2">
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg font-semibold">
                   Payload
                   {decoded.expired && (
-                    <Badge variant="destructive">Expired</Badge>
+                    <Badge variant="destructive" className="text-[10px] sm:text-xs">Expired</Badge>
                   )}
                 </CardTitle>
                 <CopyButton text={JSON.stringify(decoded.payload, null, 2)} />
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 <CodeBlock
                   code={JSON.stringify(decoded.payload, null, 2)}
                   language="json"
                 />
                 {/* Show formatted timestamps if present */}
                 {decoded.payload && typeof decoded.payload === "object" && (
-                  <div className="mt-4 pt-4 border-t border-border text-xs text-muted-foreground space-y-1">
+                  <div className="mt-4 pt-4 border-t border-border text-[10px] sm:text-xs text-muted-foreground space-y-1">
                     {"iat" in decoded.payload && (
                       <div>
                         Issued: {formatTimestamp(decoded.payload.iat as number)}
@@ -163,14 +163,14 @@ export default function JWTDecoderPage() {
             </Card>
 
             {/* Signature */}
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Signature</CardTitle>
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Signature</CardTitle>
                 <CopyButton text={decoded.signature} />
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
-                <div className="h-full overflow-auto p-4">
-                  <pre className="text-xs font-mono break-all">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
+                <div className="h-full overflow-auto">
+                  <pre className="text-[10px] sm:text-xs font-mono break-all">
                     {decoded.signature}
                   </pre>
                 </div>
@@ -179,7 +179,7 @@ export default function JWTDecoderPage() {
           </div>
         ) : (
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-6 p-4 sm:p-6">
               <EmptyState
                 icon={Key}
                 title="No token decoded"

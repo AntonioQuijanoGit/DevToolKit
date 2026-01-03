@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
 import { Badge } from "@/components/ui/badge";
+import { examples } from "@/lib/constants/examples";
 
 const generatePassword = (
   length: number,
@@ -74,6 +75,17 @@ export default function PasswordGeneratorPage() {
     setPasswords([]);
   };
 
+  const handleExample = () => {
+    const example = examples["password-generator"];
+    if (example && typeof example === "object") {
+      setLength(example.length || 16);
+      setIncludeUppercase(example.includeUppercase ?? true);
+      setIncludeLowercase(example.includeLowercase ?? true);
+      setIncludeNumbers(example.includeNumbers ?? true);
+      setIncludeSymbols(example.includeSymbols ?? true);
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col">
       <ToolHeader
@@ -82,15 +94,18 @@ export default function PasswordGeneratorPage() {
         icon={Lock}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Options</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg font-semibold">Options</CardTitle>
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                Example
+              </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Length: {length}
                 </label>
                 <Input
@@ -101,45 +116,45 @@ export default function PasswordGeneratorPage() {
                   onChange={(e) => setLength(parseInt(e.target.value))}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-1">
                   <span>4</span>
                   <span>128</span>
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-xs sm:text-sm">
                   <input
                     type="checkbox"
                     checked={includeUppercase}
                     onChange={(e) => setIncludeUppercase(e.target.checked)}
-                    className="rounded"
+                    className="rounded w-4 h-4"
                   />
                   <span>Uppercase (A-Z)</span>
                 </label>
-                <label className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-xs sm:text-sm">
                   <input
                     type="checkbox"
                     checked={includeLowercase}
                     onChange={(e) => setIncludeLowercase(e.target.checked)}
-                    className="rounded"
+                    className="rounded w-4 h-4"
                   />
                   <span>Lowercase (a-z)</span>
                 </label>
-                <label className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-xs sm:text-sm">
                   <input
                     type="checkbox"
                     checked={includeNumbers}
                     onChange={(e) => setIncludeNumbers(e.target.checked)}
-                    className="rounded"
+                    className="rounded w-4 h-4"
                   />
                   <span>Numbers (0-9)</span>
                 </label>
-                <label className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-xs sm:text-sm">
                   <input
                     type="checkbox"
                     checked={includeSymbols}
                     onChange={(e) => setIncludeSymbols(e.target.checked)}
-                    className="rounded"
+                    className="rounded w-4 h-4"
                   />
                   <span>Symbols (!@#$...)</span>
                 </label>
@@ -148,27 +163,27 @@ export default function PasswordGeneratorPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Generated Passwords</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Generated Passwords</CardTitle>
               {passwords.length > 0 && (
-                <Button variant="ghost" size="sm" onClick={handleClear}>
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                   Clear
                 </Button>
               )}
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6">
               {passwords.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {passwords.map((pwd, index) => {
                     const strength = calculateStrength(pwd);
                     return (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 rounded-lg bg-accent border border-border"
+                        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3 rounded-lg bg-accent border border-border"
                       >
-                        <div className="flex-1">
-                          <code className="text-sm font-mono">{pwd}</code>
-                          <Badge variant="outline" className={`ml-2 ${strength.color}`}>
+                        <div className="flex-1 min-w-0">
+                          <code className="text-xs sm:text-sm font-mono break-all block mb-1 sm:mb-0 sm:inline">{pwd}</code>
+                          <Badge variant="outline" className={`ml-0 sm:ml-2 mt-1 sm:mt-0 ${strength.color} text-[10px] sm:text-xs`}>
                             {strength.level}
                           </Badge>
                         </div>
@@ -178,8 +193,8 @@ export default function PasswordGeneratorPage() {
                   })}
                 </div>
               ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  <p className="text-sm">Click Generate to create passwords</p>
+                <div className="text-center py-8 px-4 text-muted-foreground">
+                  <p className="text-xs sm:text-sm">Click Generate to create passwords</p>
                 </div>
               )}
             </CardContent>
@@ -187,14 +202,17 @@ export default function PasswordGeneratorPage() {
         </div>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button
-          onClick={handleGenerate}
-          size="lg"
-          disabled={!includeUppercase && !includeLowercase && !includeNumbers && !includeSymbols}
-        >
-          Generate Passwords
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button
+            onClick={handleGenerate}
+            size="lg"
+            disabled={!includeUppercase && !includeLowercase && !includeNumbers && !includeSymbols}
+            className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base"
+          >
+            Generate Passwords
+          </Button>
+        </div>
       </div>
     </div>
   );

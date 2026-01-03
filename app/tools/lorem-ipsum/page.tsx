@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { examples } from "@/lib/constants/examples";
 
 const loremWords = [
   "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
@@ -76,6 +77,14 @@ export default function LoremIpsumPage() {
     setOutput("");
   };
 
+  const handleExample = () => {
+    const example = examples["lorem-ipsum"];
+    if (example && typeof example === "object") {
+      setType(example.type || "paragraphs");
+      setCount(example.count || 3);
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col">
       <ToolHeader
@@ -84,72 +93,80 @@ export default function LoremIpsumPage() {
         icon={AlignLeft}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>Options</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="text-sm text-muted-foreground mb-2 block">
-                Type
-              </label>
-              <Select value={type} onValueChange={(v) => setType(v as typeof type)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="words">Words</SelectItem>
-                  <SelectItem value="sentences">Sentences</SelectItem>
-                  <SelectItem value="paragraphs">Paragraphs</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <label className="text-sm text-muted-foreground mb-2 block">
-                Count: {count}
-              </label>
-              <Input
-                type="number"
-                min={1}
-                max={100}
-                value={count}
-                onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="flex-1 flex flex-col overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>Generated Text</CardTitle>
-            <div className="flex gap-2">
-              {output && <CopyButton text={output} />}
-              <Button variant="ghost" size="sm" onClick={handleClear}>
-                Clear
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+          <Card>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Options</CardTitle>
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                Example
               </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="flex-1 overflow-hidden">
-            {output ? (
-              <Textarea
-                value={output}
-                readOnly
-                className="h-full resize-none"
-              />
-            ) : (
-              <div className="h-full flex items-center justify-center text-muted-foreground">
-                <p className="text-sm">Click Generate to create text</p>
+            </CardHeader>
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+              <div>
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
+                  Type
+                </label>
+                <Select value={type} onValueChange={(v) => setType(v as typeof type)}>
+                  <SelectTrigger className="min-h-[44px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="words">Words</SelectItem>
+                    <SelectItem value="sentences">Sentences</SelectItem>
+                    <SelectItem value="paragraphs">Paragraphs</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-            )}
-          </CardContent>
-        </Card>
+              <div>
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
+                  Count: {count}
+                </label>
+                <Input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={count}
+                  onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
+                  className="min-h-[44px] text-sm sm:text-base"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Generated Text</CardTitle>
+              <div className="flex gap-2 flex-wrap">
+                {output && <CopyButton text={output} />}
+                <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
+                  Clear
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
+              {output ? (
+                <Textarea
+                  value={output}
+                  readOnly
+                  className="h-full resize-none text-xs sm:text-sm min-h-[200px]"
+                />
+              ) : (
+                <div className="h-full flex items-center justify-center text-muted-foreground px-4">
+                  <p className="text-xs sm:text-sm text-center">Click Generate to create text</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button onClick={handleGenerate} size="lg">
-          Generate
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button onClick={handleGenerate} size="lg" className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Generate
+          </Button>
+        </div>
       </div>
     </div>
   );

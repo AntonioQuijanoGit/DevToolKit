@@ -16,11 +16,20 @@ import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { generateUUIDs } from "@/lib/utils/generators";
+import { examples } from "@/lib/constants/examples";
 
 export default function UUIDGeneratorPage() {
   const [version, setVersion] = useState<"1" | "4">("4");
   const [count, setCount] = useState(5);
   const [uuids, setUuids] = useState<string[]>([]);
+
+  const handleExample = () => {
+    const example = examples["uuid-generator"];
+    if (example && typeof example === "object") {
+      setVersion(example.version || "4");
+      setCount(example.count || 5);
+    }
+  };
 
   const handleGenerate = () => {
     const generated = generateUUIDs(version, count);
@@ -47,22 +56,25 @@ export default function UUIDGeneratorPage() {
         icon={Sparkles}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-hidden">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         {/* Controls */}
         <Card>
-          <CardHeader>
-            <CardTitle>Options</CardTitle>
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg font-semibold">Options</CardTitle>
+            <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+              Example
+            </Button>
           </CardHeader>
-          <CardContent className="flex gap-4 items-end">
-            <div className="flex-1">
-              <label className="text-sm text-muted-foreground mb-2 block">
+          <CardContent className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end p-4 sm:p-6">
+            <div className="flex-1 w-full sm:w-auto">
+              <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                 Version
               </label>
               <Select
                 value={version}
                 onValueChange={(v) => setVersion(v as "1" | "4")}
               >
-                <SelectTrigger>
+                <SelectTrigger className="min-h-[44px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -71,8 +83,8 @@ export default function UUIDGeneratorPage() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex-1">
-              <label className="text-sm text-muted-foreground mb-2 block">
+            <div className="flex-1 w-full sm:w-auto">
+              <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                 Count
               </label>
               <Input
@@ -81,40 +93,41 @@ export default function UUIDGeneratorPage() {
                 max={100}
                 value={count}
                 onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
+                className="min-h-[44px] text-sm sm:text-base"
               />
             </div>
-            <Button onClick={handleGenerate} size="lg">
+            <Button onClick={handleGenerate} size="lg" className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
               Generate
             </Button>
           </CardContent>
         </Card>
 
         {/* Output */}
-        <Card className="flex-1 flex flex-col overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>Generated UUIDs ({uuids.length})</CardTitle>
-            <div className="flex gap-2">
+        <Card className="flex-1 flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Generated UUIDs ({uuids.length})</CardTitle>
+            <div className="flex gap-2 flex-wrap">
               {uuids.length > 0 && (
                 <>
-                  <Button variant="outline" size="sm" onClick={handleCopyAll}>
+                  <Button variant="outline" size="sm" onClick={handleCopyAll} className="text-xs sm:text-sm min-h-[36px]">
                     Copy All
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleClear}>
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                     Clear
                   </Button>
                 </>
               )}
             </div>
           </CardHeader>
-          <CardContent className="flex-1 overflow-auto">
+          <CardContent className="flex-1 overflow-auto p-4 sm:p-6">
             {uuids.length > 0 ? (
               <div className="space-y-2">
                 {uuids.map((uuid, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 rounded-lg bg-accent border border-border"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3 rounded-lg bg-accent border border-border"
                   >
-                    <code className="text-sm font-mono">{uuid}</code>
+                    <code className="text-xs sm:text-sm font-mono break-all">{uuid}</code>
                     <CopyButton text={uuid} />
                   </div>
                 ))}

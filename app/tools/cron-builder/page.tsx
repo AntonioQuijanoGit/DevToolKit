@@ -16,6 +16,7 @@ import {
 import { CopyButton } from "@/components/shared/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { format, addMinutes, addHours, addDays, addWeeks, addMonths } from "date-fns";
+import { examples } from "@/lib/constants/examples";
 
 const presets = [
   { name: "Every minute", value: "* * * * *" },
@@ -31,6 +32,17 @@ export default function CronBuilderPage() {
   const [day, setDay] = useState("*");
   const [month, setMonth] = useState("*");
   const [weekday, setWeekday] = useState("*");
+
+  const handleExample = () => {
+    const example = examples["cron-builder"];
+    if (example && typeof example === "object") {
+      setMinute(example.minute || "*");
+      setHour(example.hour || "*");
+      setDay(example.day || "*");
+      setMonth(example.month || "*");
+      setWeekday(example.weekday || "*");
+    }
+  };
 
   const cronExpression = useMemo(() => {
     return `${minute} ${hour} ${day} ${month} ${weekday}`;
@@ -90,65 +102,73 @@ export default function CronBuilderPage() {
         icon={Clock}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Builder</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Builder</CardTitle>
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
+                Example
+              </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Minute (0-59)
                 </label>
                 <Input
                   value={minute}
                   onChange={(e) => setMinute(e.target.value)}
                   placeholder="* or 0-59"
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Hour (0-23)
                 </label>
                 <Input
                   value={hour}
                   onChange={(e) => setHour(e.target.value)}
                   placeholder="* or 0-23"
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Day of Month (1-31)
                 </label>
                 <Input
                   value={day}
                   onChange={(e) => setDay(e.target.value)}
                   placeholder="* or 1-31"
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Month (1-12)
                 </label>
                 <Input
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
                   placeholder="* or 1-12"
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Day of Week (0-6, 0=Sunday)
                 </label>
                 <Input
                   value={weekday}
                   onChange={(e) => setWeekday(e.target.value)}
                   placeholder="* or 0-6"
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={handleClear} size="sm">
+                <Button variant="outline" onClick={handleClear} size="sm" className="text-xs sm:text-sm min-h-[36px]">
                   Clear
                 </Button>
               </div>
@@ -156,23 +176,23 @@ export default function CronBuilderPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <CardTitle>Result</CardTitle>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <CardTitle className="text-base sm:text-lg font-semibold">Result</CardTitle>
               <CopyButton text={cronExpression} />
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 rounded-lg bg-accent border border-border">
-                <pre className="text-lg font-mono font-bold">{cronExpression}</pre>
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+              <div className="p-3 sm:p-4 rounded-lg bg-accent border border-border">
+                <pre className="text-sm sm:text-base md:text-lg font-mono font-bold break-words">{cronExpression}</pre>
               </div>
               <div>
-                <Badge variant="secondary" className="mb-2">Explanation</Badge>
-                <p className="text-sm">{explanation}</p>
+                <Badge variant="secondary" className="mb-2 text-[10px] sm:text-xs">Explanation</Badge>
+                <p className="text-xs sm:text-sm break-words">{explanation}</p>
               </div>
               <div>
-                <Badge variant="secondary" className="mb-2">Next Runs (approx)</Badge>
+                <Badge variant="secondary" className="mb-2 text-[10px] sm:text-xs">Next Runs (approx)</Badge>
                 <div className="space-y-1">
                   {nextRuns.slice(0, 5).map((run, i) => (
-                    <div key={i} className="text-xs text-muted-foreground">
+                    <div key={i} className="text-[10px] sm:text-xs text-muted-foreground">
                       {format(run, "PPpp")}
                     </div>
                   ))}
@@ -183,10 +203,10 @@ export default function CronBuilderPage() {
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Presets</CardTitle>
+          <CardHeader className="p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Presets</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6">
             <div className="flex flex-wrap gap-2">
               {presets.map((preset) => (
                 <Button
@@ -194,6 +214,7 @@ export default function CronBuilderPage() {
                   variant="outline"
                   size="sm"
                   onClick={() => handlePreset(preset.value)}
+                  className="text-xs sm:text-sm min-h-[36px]"
                 >
                   {preset.name}
                 </Button>

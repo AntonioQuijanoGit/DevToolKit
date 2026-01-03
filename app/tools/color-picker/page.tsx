@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
 import { hexToRgb, rgbToHex, rgbToHsl, rgbToHsv, hslToRgb } from "@/lib/utils/color-utils";
+import { examples } from "@/lib/constants/examples";
 
 export default function ColorPickerPage() {
-  const initialHex = "#0070F3";
+  const exampleColor = examples["color-picker"];
+  const initialHex = (exampleColor && typeof exampleColor === "object" && exampleColor.hex) ? exampleColor.hex : "#0070F3";
   const initialRgb = hexToRgb(initialHex) || { r: 0, g: 112, b: 243 };
   const initialHsl = rgbToHsl(initialRgb.r, initialRgb.g, initialRgb.b);
   const initialHsv = rgbToHsv(initialRgb.r, initialRgb.g, initialRgb.b);
@@ -78,41 +80,41 @@ export default function ColorPickerPage() {
         icon={Palette}
       />
 
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 overflow-auto pb-20 sm:pb-24">
         {/* Color Preview */}
         <Card>
-          <CardHeader>
-            <CardTitle>Preview</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg font-semibold">Preview</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-6">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
               <div
-                className="w-32 h-32 rounded-lg border-2 border-border"
+                className="w-full sm:w-32 h-32 sm:h-32 rounded-lg border-2 border-border flex-shrink-0"
                 style={{ backgroundColor: hex }}
               />
-              <div className="flex-1 space-y-4">
+              <div className="flex-1 w-full space-y-3 sm:space-y-4">
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">
+                  <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                     HEX
                   </label>
                   <div className="flex gap-2">
                     <Input
                       value={hex}
                       onChange={handleHexChange}
-                      className="font-mono flex-1"
+                      className="font-mono flex-1 min-h-[44px] text-sm sm:text-base"
                     />
                     <CopyButton text={hex} />
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">
+                  <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                     RGB
                   </label>
                   <div className="flex gap-2">
                     <Input
                       value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
                       readOnly
-                      className="font-mono flex-1"
+                      className="font-mono flex-1 min-h-[44px] text-sm sm:text-base"
                     />
                     <CopyButton text={colorString} />
                   </div>
@@ -122,15 +124,15 @@ export default function ColorPickerPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {/* RGB Inputs */}
           <Card>
-            <CardHeader>
-              <CardTitle>RGB</CardTitle>
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg font-semibold">RGB</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Red
                 </label>
                 <Input
@@ -141,10 +143,11 @@ export default function ColorPickerPage() {
                   onChange={(e) =>
                     handleRgbChange("r", parseInt(e.target.value) || 0)
                   }
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Green
                 </label>
                 <Input
@@ -155,10 +158,11 @@ export default function ColorPickerPage() {
                   onChange={(e) =>
                     handleRgbChange("g", parseInt(e.target.value) || 0)
                   }
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Blue
                 </label>
                 <Input
@@ -169,6 +173,7 @@ export default function ColorPickerPage() {
                   onChange={(e) =>
                     handleRgbChange("b", parseInt(e.target.value) || 0)
                   }
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
             </CardContent>
@@ -176,12 +181,12 @@ export default function ColorPickerPage() {
 
           {/* HSL */}
           <Card>
-            <CardHeader>
-              <CardTitle>HSL</CardTitle>
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg font-semibold">HSL</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Hue
                 </label>
                 <Input
@@ -192,10 +197,11 @@ export default function ColorPickerPage() {
                   onChange={(e) =>
                     handleHslChange("h", parseInt(e.target.value) || 0)
                   }
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Saturation
                 </label>
                 <Input
@@ -206,10 +212,11 @@ export default function ColorPickerPage() {
                   onChange={(e) =>
                     handleHslChange("s", parseInt(e.target.value) || 0)
                   }
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Lightness
                 </label>
                 <Input
@@ -220,6 +227,7 @@ export default function ColorPickerPage() {
                   onChange={(e) =>
                     handleHslChange("l", parseInt(e.target.value) || 0)
                   }
+                  className="min-h-[44px] text-sm sm:text-base"
                 />
               </div>
               <div className="pt-2">
@@ -227,7 +235,7 @@ export default function ColorPickerPage() {
                   <Input
                     value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
                     readOnly
-                    className="font-mono text-sm"
+                    className="font-mono text-xs sm:text-sm flex-1 min-h-[44px]"
                   />
                   <CopyButton
                     text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
@@ -239,34 +247,34 @@ export default function ColorPickerPage() {
 
           {/* HSV */}
           <Card>
-            <CardHeader>
-              <CardTitle>HSV</CardTitle>
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg font-semibold">HSV</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Hue
                 </label>
-                <Input type="number" min={0} max={360} value={hsv.h} readOnly />
+                <Input type="number" min={0} max={360} value={hsv.h} readOnly className="min-h-[44px] text-sm sm:text-base" />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Saturation
                 </label>
-                <Input type="number" min={0} max={100} value={hsv.s} readOnly />
+                <Input type="number" min={0} max={100} value={hsv.s} readOnly className="min-h-[44px] text-sm sm:text-base" />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-xs sm:text-sm text-muted-foreground mb-2 block">
                   Value
                 </label>
-                <Input type="number" min={0} max={100} value={hsv.v} readOnly />
+                <Input type="number" min={0} max={100} value={hsv.v} readOnly className="min-h-[44px] text-sm sm:text-base" />
               </div>
               <div className="pt-2">
                 <div className="flex gap-2">
                   <Input
                     value={`hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`}
                     readOnly
-                    className="font-mono text-sm"
+                    className="font-mono text-xs sm:text-sm flex-1 min-h-[44px]"
                   />
                   <CopyButton
                     text={`hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`}

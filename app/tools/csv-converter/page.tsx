@@ -88,27 +88,27 @@ Jane,25,Los Angeles`);
         icon={Layers}
       />
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-3 sm:p-4 md:p-6">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "csv" | "json")} className="h-full flex flex-col">
-          <TabsList className="mb-4">
-            <TabsTrigger value="csv">CSV → JSON</TabsTrigger>
-            <TabsTrigger value="json">JSON → CSV</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="csv" className="text-xs sm:text-sm">CSV → JSON</TabsTrigger>
+            <TabsTrigger value="json" className="text-xs sm:text-sm">JSON → CSV</TabsTrigger>
           </TabsList>
 
-          <div className="flex-1 grid grid-cols-2 gap-4 overflow-hidden">
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>{activeTab === "csv" ? "CSV" : "JSON"}</CardTitle>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={handleExample}>
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-hidden">
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">{activeTab === "csv" ? "CSV" : "JSON"}</CardTitle>
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                     Example
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleClear}>
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                     Clear
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -117,23 +117,23 @@ Jane,25,Los Angeles`);
                       ? "Paste CSV data..."
                       : "Paste JSON data..."
                   }
-                  className="h-full font-mono text-sm resize-none"
+                  className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
                 />
               </CardContent>
             </Card>
 
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>{activeTab === "csv" ? "JSON" : "CSV"}</CardTitle>
+            <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">{activeTab === "csv" ? "JSON" : "CSV"}</CardTitle>
                 {output && <CopyButton text={output} />}
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 {output ? (
                   activeTab === "csv" ? (
                     <CodeBlock code={output} language="json" />
                   ) : (
-                    <div className="h-full overflow-auto p-4">
-                      <pre className="text-sm font-mono whitespace-pre-wrap">
+                    <div className="h-full overflow-auto">
+                      <pre className="text-xs sm:text-sm font-mono whitespace-pre-wrap break-words">
                         {output}
                       </pre>
                     </div>
@@ -151,10 +151,12 @@ Jane,25,Los Angeles`);
         </Tabs>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button onClick={handleConvert} size="lg" disabled={!input.trim()}>
-          Convert
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button onClick={handleConvert} size="lg" disabled={!input.trim()} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Convert
+          </Button>
+        </div>
       </div>
     </div>
   );

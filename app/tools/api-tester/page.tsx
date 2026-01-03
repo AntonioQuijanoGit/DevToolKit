@@ -40,9 +40,9 @@ interface Response {
 export default function APITesterPage() {
   const [url, setUrl] = useState("");
   const [method, setMethod] = useState<Request["method"]>("GET");
-  const [headers, setHeaders] = useState<Array<{ key: string; value: string }>>([
-    { key: "Content-Type", value: "application/json" },
-  ]);
+  const [headers, setHeaders] = useState<Array<{ key: string; value: string }>>(
+    [{ key: "", value: "" }]
+  );
   const [body, setBody] = useState("");
   const [response, setResponse] = useState<Response | null>(null);
   const [loading, setLoading] = useState(false);
@@ -51,35 +51,87 @@ export default function APITesterPage() {
   const handleSend = async () => {
     if (!url.trim()) return;
 
+    // Validate URL format
+    let validUrl = url.trim();
+    if (!validUrl.startsWith("http://") && !validUrl.startsWith("https://")) {
+      validUrl = `https://${validUrl}`;
+    }
+
     setLoading(true);
+    setResponse(null);
     const startTime = performance.now();
 
     try {
       const requestHeaders: Record<string, string> = {};
       headers.forEach((h) => {
         if (h.key.trim()) {
-          requestHeaders[h.key] = h.value;
+          const key = h.key.trim();
+          const value = h.value.trim();
+
+          // Don't add Content-Type to GET/DELETE requests (causes unnecessary CORS preflight)
+          if (
+            (method === "GET" || method === "DELETE") &&
+            key.toLowerCase() === "content-type"
+          ) {
+            return; // Skip this header
+          }
+
+          requestHeaders[key] = value;
         }
       });
 
       const request: Request = {
-        url,
+        url: validUrl,
         method,
         headers: requestHeaders,
         body: method !== "GET" && method !== "DELETE" ? body : undefined,
       };
 
-      const fetchResponse = await fetch(url, {
-        method,
-        headers: requestHeaders,
-        body: request.body,
-      });
+      // Create AbortController for timeout
+      const controller = new AbortController();
+      const TIMEOUT_MS = 60000; // 60 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      let fetchResponse: globalThis.Response;
+      try {
+        // Build fetch options
+        const fetchOptions: RequestInit = {
+          method,
+          signal: controller.signal,
+          mode: "cors",
+          credentials: "omit",
+        };
+
+        // Only add headers if there are any (and they're not empty)
+        if (Object.keys(requestHeaders).length > 0) {
+          fetchOptions.headers = requestHeaders;
+        }
+
+        // Only add body for methods that support it
+        if (request.body) {
+          fetchOptions.body = request.body;
+        }
+
+        fetchResponse = await fetch(validUrl, fetchOptions);
+        clearTimeout(timeoutId);
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        if (fetchError instanceof Error && fetchError.name === "AbortError") {
+          throw new Error(
+            `Request timeout: The request took longer than ${
+              TIMEOUT_MS / 1000
+            } seconds`
+          );
+        }
+        // Re-throw to be handled by outer catch
+        throw fetchError;
+      }
 
       const endTime = performance.now();
       const responseTime = Math.round(endTime - startTime);
 
       const responseHeaders: Record<string, string> = {};
-      fetchResponse.headers.forEach((value, key) => {
+      fetchResponse.headers.forEach((value: string, key: string) => {
         responseHeaders[key] = value;
       });
 
@@ -111,13 +163,48 @@ export default function APITesterPage() {
     } catch (error) {
       const endTime = performance.now();
       const responseTime = Math.round(endTime - startTime);
+
+      let errorMessage = "Unknown error";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+        // Provide more helpful error messages
+        if (
+          errorMessage.includes("Failed to fetch") ||
+          errorMessage.includes("NetworkError") ||
+          errorMessage.includes("Network request failed")
+        ) {
+          // Check if it's a CORS issue
+          if (
+            validUrl.startsWith("http://") ||
+            validUrl.startsWith("https://")
+          ) {
+            // More specific message based on the URL
+            if (validUrl.includes("jsonplaceholder.typicode.com")) {
+              errorMessage =
+                "Failed to fetch from JSONPlaceholder. This might be a temporary server issue or CORS restriction. Try: https://httpbin.org/get or https://api.github.com/users/octocat";
+            } else {
+              errorMessage =
+                "Failed to fetch: This is likely a CORS (Cross-Origin Resource Sharing) issue. The server may not allow requests from this origin. Try using a CORS proxy or test with an API that supports CORS.";
+            }
+          } else {
+            errorMessage =
+              "Failed to fetch: Check if the URL is correct and accessible";
+          }
+        } else if (errorMessage.includes("timeout")) {
+          errorMessage = errorMessage; // Keep the timeout message as is
+        } else if (errorMessage.includes("TypeError")) {
+          errorMessage =
+            "Network error: Unable to connect to the server. Check your internet connection and verify the URL is correct.";
+        }
+      }
+
       setResponse({
         status: 0,
         statusText: "Error",
         headers: {},
         data: "",
         responseTime,
-        error: error instanceof Error ? error.message : "Unknown error",
+        error: errorMessage,
       });
     } finally {
       setLoading(false);
@@ -144,8 +231,11 @@ export default function APITesterPage() {
 
   const handleExample = () => {
     const example = examples["api-tester"];
-    setUrl(example.url);
-    setMethod(example.method);
+    if (example && typeof example === "object" && "url" in example) {
+      setUrl(example.url);
+      setMethod(example.method || "GET");
+      setResponse(null);
+    }
   };
 
   const getStatusColor = (status: number) => {
@@ -163,23 +253,60 @@ export default function APITesterPage() {
         icon={FileCode}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-hidden">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         {/* Request Builder */}
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Request</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+              <CardTitle className="text-base sm:text-lg font-semibold">
+                Request
+              </CardTitle>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleExample}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleExample}
+                  className="text-xs sm:text-sm min-h-[36px]"
+                >
                   Example
                 </Button>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-2">
-              <Select value={method} onValueChange={(v) => setMethod(v as Request["method"])}>
-                <SelectTrigger className="w-32">
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+            <div className="p-3 sm:p-4 bg-muted/50 border border-border rounded-lg">
+              <div className="flex items-start gap-2">
+                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center mt-0.5">
+                  <span className="text-[10px] text-blue-600 dark:text-blue-400">
+                    ℹ
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs sm:text-sm font-medium mb-1">
+                    Cross-Origin Resource Sharing (CORS)
+                  </p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed">
+                    Browser security policies may restrict cross-origin
+                    requests. APIs must explicitly allow requests from your
+                    origin via CORS headers. If a request fails, the API may not
+                    support browser-based requests. Recommended test endpoints:{" "}
+                    <code className="text-[10px] px-1 py-0.5 bg-background rounded">
+                      httpbin.org
+                    </code>{" "}
+                    or{" "}
+                    <code className="text-[10px] px-1 py-0.5 bg-background rounded">
+                      api.github.com
+                    </code>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Select
+                value={method}
+                onValueChange={(v) => setMethod(v as Request["method"])}
+              >
+                <SelectTrigger className="w-full sm:w-32 min-h-[44px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -194,11 +321,24 @@ export default function APITesterPage() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://api.example.com/endpoint"
-                className="flex-1"
+                className="flex-1 min-h-[44px] text-sm sm:text-base"
               />
-              <Button onClick={handleSend} disabled={loading || !url.trim()}>
-                <Send className="h-4 w-4 mr-2" />
-                {loading ? "Sending..." : "Send"}
+              <Button
+                onClick={handleSend}
+                disabled={loading || !url.trim()}
+                className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base"
+              >
+                {loading ? (
+                  <>
+                    <Clock className="h-4 w-4 mr-2 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4 mr-2" />
+                    Send
+                  </>
+                )}
               </Button>
             </div>
 
@@ -212,34 +352,54 @@ export default function APITesterPage() {
                 )}
               </TabsList>
               <TabsContent value="headers" className="space-y-2">
-                {headers.map((header, index) => (
-                  <div key={index} className="flex gap-2">
-                    <Input
-                      placeholder="Header name"
-                      value={header.key}
-                      onChange={(e) =>
-                        handleHeaderChange(index, "key", e.target.value)
-                      }
-                      className="flex-1"
-                    />
-                    <Input
-                      placeholder="Header value"
-                      value={header.value}
-                      onChange={(e) =>
-                        handleHeaderChange(index, "value", e.target.value)
-                      }
-                      className="flex-1"
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleRemoveHeader(index)}
-                    >
-                      ×
-                    </Button>
+                {headers.length === 0 ? (
+                  <div className="text-center py-4 text-muted-foreground">
+                    <p className="text-xs sm:text-sm">
+                      No headers. Click &quot;Add Header&quot; to add one.
+                    </p>
+                    <p className="text-[10px] sm:text-xs mt-1">
+                      Note: GET/DELETE requests don&apos;t need Content-Type
+                    </p>
                   </div>
-                ))}
-                <Button variant="outline" onClick={handleAddHeader} size="sm">
+                ) : (
+                  headers.map((header, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col sm:flex-row gap-2"
+                    >
+                      <Input
+                        placeholder="Header name (e.g., Authorization)"
+                        value={header.key}
+                        onChange={(e) =>
+                          handleHeaderChange(index, "key", e.target.value)
+                        }
+                        className="flex-1 min-h-[44px] text-sm sm:text-base"
+                      />
+                      <Input
+                        placeholder="Header value"
+                        value={header.value}
+                        onChange={(e) =>
+                          handleHeaderChange(index, "value", e.target.value)
+                        }
+                        className="flex-1 min-h-[44px] text-sm sm:text-base"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleRemoveHeader(index)}
+                        className="min-h-[44px] min-w-[44px]"
+                      >
+                        ×
+                      </Button>
+                    </div>
+                  ))
+                )}
+                <Button
+                  variant="outline"
+                  onClick={handleAddHeader}
+                  size="sm"
+                  className="text-xs sm:text-sm min-h-[36px]"
+                >
                   + Add Header
                 </Button>
               </TabsContent>
@@ -251,7 +411,7 @@ export default function APITesterPage() {
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     placeholder='{"key": "value"}'
-                    className="font-mono text-sm min-h-[200px]"
+                    className="font-mono text-xs sm:text-sm min-h-[200px] resize-y"
                   />
                 </TabsContent>
               )}
@@ -261,30 +421,147 @@ export default function APITesterPage() {
 
         {/* Response */}
         {response && (
-          <Card className="flex-1 flex flex-col overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <div className="flex items-center gap-3">
-                <CardTitle>Response</CardTitle>
+          <Card className="flex-1 flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                <CardTitle className="text-base sm:text-lg font-semibold">
+                  Response
+                </CardTitle>
                 <Badge
-                  className={getStatusColor(response.status)}
+                  className={`${getStatusColor(
+                    response.status
+                  )} text-xs sm:text-sm`}
                   variant="outline"
                 >
                   {response.status} {response.statusText}
                 </Badge>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" />
+                <div className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground">
+                  <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                   {response.responseTime}ms
                 </div>
               </div>
               {response.data && <CopyButton text={response.data} />}
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
+            <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
               {response.error ? (
-                <div className="text-center py-8">
-                  <p className="text-destructive font-semibold mb-2">Error</p>
-                  <p className="text-sm text-muted-foreground">
+                <div className="text-center py-8 px-4">
+                  <p className="text-destructive font-semibold mb-2 text-sm sm:text-base">
+                    Error
+                  </p>
+                  <p className="text-xs sm:text-sm text-muted-foreground break-words">
                     {response.error}
                   </p>
+                  <div className="mt-4 space-y-4">
+                    <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
+                      <h4 className="text-sm font-semibold mb-3 text-destructive">
+                        Cross-Origin Resource Sharing (CORS) Error
+                      </h4>
+                      <div className="space-y-3 text-xs sm:text-sm text-muted-foreground">
+                        <p>
+                          CORS is a browser security mechanism that restricts
+                          HTTP requests initiated from scripts running in the
+                          browser to a different origin (domain, protocol, or
+                          port) than the one serving the web page.
+                        </p>
+                        <p>
+                          When making a request from{" "}
+                          <code className="px-1.5 py-0.5 bg-background rounded text-[10px] sm:text-xs">
+                            http://localhost:3000
+                          </code>{" "}
+                          to an external API, the browser performs a preflight
+                          OPTIONS request to verify if the server permits
+                          cross-origin requests from your origin.
+                        </p>
+                        <p className="text-destructive/90">
+                          <strong>Note:</strong> This is a browser security
+                          limitation, not an API Tester issue. The target server
+                          must include appropriate CORS headers (
+                          <code className="text-[10px]">
+                            Access-Control-Allow-Origin
+                          </code>
+                          ) to permit the request.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-muted/30 border border-border rounded-lg">
+                      <h4 className="text-sm font-semibold mb-3">
+                        Recommended Solutions
+                      </h4>
+                      <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
+                        <li className="flex items-start gap-2">
+                          <span className="text-primary mt-0.5">•</span>
+                          <span>
+                            <strong>Use CORS-enabled APIs:</strong> Test with
+                            endpoints that explicitly support cross-origin
+                            requests (GitHub API, httpbin.org, etc.)
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-primary mt-0.5">•</span>
+                          <span>
+                            <strong>Optimize request headers:</strong> Avoid
+                            unnecessary headers like{" "}
+                            <code className="text-[10px] px-1 py-0.5 bg-background rounded">
+                              Content-Type
+                            </code>{" "}
+                            in GET/DELETE requests to prevent preflight requests
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-primary mt-0.5">•</span>
+                          <span>
+                            <strong>Server-side configuration:</strong> If you
+                            control the API server, configure CORS headers to
+                            allow requests from your origin
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-primary mt-0.5">•</span>
+                          <span>
+                            <strong>Alternative testing methods:</strong> Use
+                            server-side tools (curl, Postman, Insomnia) that are
+                            not subject to browser CORS restrictions
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="p-4 bg-background border border-border rounded-lg">
+                      <h4 className="text-sm font-semibold mb-3">
+                        Verified CORS-Compatible Endpoints
+                      </h4>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                          <code className="text-[10px] sm:text-xs font-mono break-all">
+                            https://httpbin.org/get
+                          </code>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                          <code className="text-[10px] sm:text-xs font-mono break-all">
+                            https://api.github.com/users/octocat
+                          </code>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
+                          <code className="text-[10px] sm:text-xs font-mono break-all">
+                            https://jsonplaceholder.typicode.com/users
+                          </code>
+                          <span className="text-[10px] text-muted-foreground">
+                            (may vary by environment)
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-3 pt-3 border-t border-border">
+                        <strong>Environment note:</strong> Electron-based
+                        applications (like Cursor) may have additional CORS
+                        restrictions. Some APIs may work in standard browsers
+                        but fail in Electron environments.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ) : response.data ? (
                 <CodeBlock
@@ -303,9 +580,3 @@ export default function APITesterPage() {
     </div>
   );
 }
-
-
-
-
-
-

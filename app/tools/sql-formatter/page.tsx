@@ -92,40 +92,40 @@ export default function SQLFormatterPage() {
         icon={Database}
       />
 
-      <div className="flex-1 grid grid-cols-2 gap-4 p-6 overflow-hidden">
-        <Card className="flex flex-col overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>Input</CardTitle>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleExample}>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
+            <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                 Example
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleClear}>
+              <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                 Clear
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="flex-1 overflow-hidden">
+          <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Paste your SQL query here..."
-              className="h-full font-mono text-sm resize-none"
+              className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
             />
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle>Output</CardTitle>
+        <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+            <CardTitle className="text-base sm:text-lg font-semibold">Output</CardTitle>
             {output && <CopyButton text={output} />}
           </CardHeader>
-          <CardContent className="flex-1 overflow-hidden">
+          <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
             {error ? (
               <div className="h-full flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-destructive font-semibold mb-2">Error</p>
-                  <p className="text-sm text-muted-foreground">{error}</p>
+                <div className="text-center px-4">
+                  <p className="text-destructive font-semibold mb-2 text-sm sm:text-base">Error</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{error}</p>
                 </div>
               </div>
             ) : output ? (
@@ -141,10 +141,12 @@ export default function SQLFormatterPage() {
         </Card>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button onClick={handleFormat} size="lg" disabled={!input.trim()}>
-          Format SQL
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <Button onClick={handleFormat} size="lg" disabled={!input.trim()} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Format SQL
+          </Button>
+        </div>
       </div>
     </div>
   );

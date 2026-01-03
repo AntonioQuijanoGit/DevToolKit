@@ -128,53 +128,53 @@ done`);
         icon={FileText}
       />
 
-      <div className="flex-1 p-6 space-y-4 overflow-auto">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
         <Tabs defaultValue="format" className="h-full flex flex-col">
-          <TabsList>
-            <TabsTrigger value="format">Format</TabsTrigger>
-            <TabsTrigger value="validate">Validate</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4">
+            <TabsTrigger value="format" className="text-xs sm:text-sm">Format</TabsTrigger>
+            <TabsTrigger value="validate" className="text-xs sm:text-sm">Validate</TabsTrigger>
           </TabsList>
 
-          <div className="flex-1 grid grid-cols-2 gap-4 overflow-hidden">
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Input</CardTitle>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={handleExample}>
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+            <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="outline" size="sm" onClick={handleExample} className="text-xs sm:text-sm min-h-[36px]">
                     Example
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleClear}>
+                  <Button variant="ghost" size="sm" onClick={handleClear} className="text-xs sm:text-sm min-h-[36px]">
                     Clear
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
+              <CardContent className="flex-1 overflow-hidden p-4 sm:p-6">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Paste your bash script here..."
-                  className="h-full font-mono text-sm resize-none"
+                  className="h-full font-mono text-xs sm:text-sm resize-none min-h-[200px]"
                 />
               </CardContent>
             </Card>
 
-            <Card className="flex flex-col overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-3">
-                <CardTitle>Output</CardTitle>
+            <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
+                <CardTitle className="text-base sm:text-lg font-semibold">Output</CardTitle>
                 {output && <CopyButton text={output} />}
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden space-y-4">
+              <CardContent className="flex-1 overflow-hidden space-y-3 sm:space-y-4 p-4 sm:p-6">
                 {output ? (
                   <>
                     <CodeBlock code={output} language="bash" />
                     {errors.length > 0 && (
                       <div>
-                        <Badge variant="destructive" className="mb-2">
+                        <Badge variant="destructive" className="mb-2 text-[10px] sm:text-xs">
                           Errors ({errors.length})
                         </Badge>
                         <div className="space-y-1">
                           {errors.map((error, i) => (
-                            <p key={i} className="text-xs text-destructive">
+                            <p key={i} className="text-[10px] sm:text-xs text-destructive break-words">
                               {error}
                             </p>
                           ))}
@@ -183,12 +183,12 @@ done`);
                     )}
                     {warnings.length > 0 && (
                       <div>
-                        <Badge variant="outline" className="mb-2">
+                        <Badge variant="outline" className="mb-2 text-[10px] sm:text-xs">
                           Warnings ({warnings.length})
                         </Badge>
                         <div className="space-y-1">
                           {warnings.map((warning, i) => (
-                            <p key={i} className="text-xs text-muted-foreground">
+                            <p key={i} className="text-[10px] sm:text-xs text-muted-foreground break-words">
                               {warning}
                             </p>
                           ))}
@@ -209,13 +209,15 @@ done`);
         </Tabs>
       </div>
 
-      <div className="border-t border-border p-4 flex justify-center gap-3">
-        <Button onClick={formatScript} size="lg" disabled={!input.trim()}>
-          Format
-        </Button>
-        <Button variant="outline" onClick={validateScript} size="lg" disabled={!input.trim()}>
-          Validate
-        </Button>
+      <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
+          <Button onClick={formatScript} size="lg" disabled={!input.trim()} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Format
+          </Button>
+          <Button variant="outline" onClick={validateScript} size="lg" disabled={!input.trim()} className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base">
+            Validate
+          </Button>
+        </div>
       </div>
     </div>
   );
