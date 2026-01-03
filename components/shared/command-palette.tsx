@@ -15,8 +15,6 @@ const toolTags: Record<string, string[]> = {
   "json-formatter": ["format", "beautify", "prettify", "indent"],
   "api-tester": ["api", "rest", "http", "request", "test"],
   "curl-generator": ["curl", "command", "terminal", "api"],
-  "code-analyzer": ["analyze", "lint", "check", "review", "quality"],
-  "code-explainer": ["explain", "understand", "documentation", "docs"],
   "workflow-automation": ["workflow", "automation", "pipeline", "chain"],
 };
 

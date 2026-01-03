@@ -56,7 +56,8 @@ export default function CronBuilderPage() {
     if (month !== "*") parts.push(`in month ${month}`);
     if (weekday !== "*") {
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      parts.push(`on ${days[parseInt(weekday) % 7]}`);
+      const dayIndex = parseInt(weekday) - Math.floor(parseInt(weekday) / 7) * 7;
+      parts.push("on " + days[dayIndex]);
     }
     return parts.length > 0 ? `Runs ${parts.join(", ")}` : "Runs every minute";
   }, [minute, hour, day, month, weekday]);

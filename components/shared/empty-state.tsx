@@ -69,7 +69,7 @@ export function EmptyState({
 
       {tips && tips.length > 0 && (
         <div className="mt-8 pt-6 border-t border-border w-full max-w-md">
-          <p className="text-xs font-semibold text-foreground mb-3">💡 Tips:</p>
+          <p className="text-xs font-semibold text-foreground mb-3">Tips:</p>
           <ul className="text-xs space-y-1.5 text-left">
             {tips.map((tip, index) => (
               <li key={index} className="flex items-start gap-2">

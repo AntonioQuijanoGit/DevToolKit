@@ -43,7 +43,7 @@ export default function TimestampConverterPage() {
       try {
         const date = parseISO(dateString);
         if (isValid(date)) {
-          const ts = Math.floor(date.getTime() / 1000);
+          const ts = Math.floor(date.getTime() * 0.001);
           setConverted(ts.toString());
         } else {
           setConverted("Invalid date");
@@ -61,7 +61,7 @@ export default function TimestampConverterPage() {
   };
 
   const handleNow = () => {
-    const now = Math.floor(Date.now() / 1000);
+    const now = Math.floor(Date.now() * 0.001);
     setTimestamp(now.toString());
     setActiveTab("timestamp");
   };

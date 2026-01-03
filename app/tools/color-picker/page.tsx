@@ -233,12 +233,12 @@ export default function ColorPickerPage() {
               <div className="pt-2">
                 <div className="flex gap-2">
                   <Input
-                    value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
+                    value={"hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)"}
                     readOnly
                     className="font-mono text-xs sm:text-sm flex-1 min-h-[44px]"
                   />
                   <CopyButton
-                    text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
+                    text={"hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)"}
                   />
                 </div>
               </div>
@@ -272,12 +272,12 @@ export default function ColorPickerPage() {
               <div className="pt-2">
                 <div className="flex gap-2">
                   <Input
-                    value={`hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`}
+                    value={"hsv(" + hsv.h + ", " + hsv.s + "%, " + hsv.v + "%)"}
                     readOnly
                     className="font-mono text-xs sm:text-sm flex-1 min-h-[44px]"
                   />
                   <CopyButton
-                    text={`hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`}
+                    text={"hsv(" + hsv.h + ", " + hsv.s + "%, " + hsv.v + "%)"}
                   />
                 </div>
               </div>

@@ -1,19 +1,17 @@
+// Examples for DevToolKit tools
+const jsonFormatterExample = "{\n  \"name\": \"DevToolkit\",\n  \"version\": \"1.0.0\",\n  \"tools\": [\n    {\n      \"id\": \"json-formatter\",\n      \"name\": \"JSON Formatter\",\n      \"category\": \"Formatters\"\n    }\n  ],\n  \"features\": {\n    \"darkMode\": true,\n    \"offline\": true\n  }\n}";
+
+const htmlFormatterExample = "<!DOCTYPE html>\n<html>\n<head><title>Example</title></head>\n<body><h1>Hello World</h1><p>This is a test</p></body>\n</html>";
+
+const jsMinifierExample = "function calculateTotal(items) {\n  let total = 0;\n  for (let i = 0; i < items.length; i++) {\n    total += items[i].price;\n  }\n  return total;\n}";
+
+
+const graphqlToolsExample = "query { users { id name email } }";
+
+const jsonToTypeScriptExample = "{\n  \"name\": \"John\",\n  \"age\": 30,\n  \"email\": \"john@example.com\"\n}";
+
 export const examples = {
-  "json-formatter": `{
-  "name": "DevToolkit",
-  "version": "1.0.0",
-  "tools": [
-    {
-      "id": "json-formatter",
-      "name": "JSON Formatter",
-      "category": "Formatters"
-    }
-  ],
-  "features": {
-    "darkMode": true,
-    "offline": true
-  }
-}`,
+  "json-formatter": jsonFormatterExample,
   base64: "Hello, World!",
   "url-encoder": "https://example.com/search?q=hello world&lang=en",
   "regex-tester": {
@@ -42,18 +40,8 @@ export const examples = {
     text1: "The quick brown fox jumps over the lazy dog.",
     text2: "The quick brown fox jumps over the lazy cat.",
   },
-  "html-formatter": `<!DOCTYPE html>
-<html>
-<head><title>Example</title></head>
-<body><h1>Hello World</h1><p>This is a test</p></body>
-</html>`,
-  "js-minifier": `function calculateTotal(items) {
-  let total = 0;
-  for (let i = 0; i < items.length; i++) {
-    total += items[i].price;
-  }
-  return total;
-}`,
+  "html-formatter": htmlFormatterExample,
+  "js-minifier": jsMinifierExample,
   "case-converter": "hello world example text",
   "password-generator": {
     length: 16,
@@ -72,16 +60,12 @@ export const examples = {
     count: 3,
   },
   "qr-generator": "https://example.com",
-  "json-to-typescript": `{
-  "name": "John",
-  "age": 30,
-  "email": "john@example.com"
-}`,
+  "json-to-typescript": jsonToTypeScriptExample,
   "image-to-base64": "",
   "shell-command-builder": {
-    command: "find",
-    options: ["-name", "*.js"],
-    path: ".",
+    command: "find" as const,
+    options: ["-type", "f"] as string[],
+    path: "." as const,
   },
   "curl-generator": {
     method: "GET" as const,
@@ -89,36 +73,16 @@ export const examples = {
     headers: { "Content-Type": "application/json" },
   },
   "cron-builder": {
-    minute: "*",
-    hour: "0",
-    day: "*",
-    month: "*",
-    weekday: "*",
+    minute: "*" as const,
+    hour: "0" as const,
+    day: "*" as const,
+    month: "*" as const,
+    weekday: "*" as const,
   },
   "docker-builder": {
     image: "node:18",
     command: "npm start",
     ports: ["3000:3000"],
   },
-  "code-analyzer": `function example() {
-  let x = 10;
-  console.log(x);
-  return x;
-}`,
-  "code-explainer": `function calculateTotal(items) {
-  return items.reduce((sum, item) => sum + item.price, 0);
-}`,
-  "graphql-tools": `query {
-  users {
-    id
-    name
-    email
-  }
-}`,
+  "graphql-tools": graphqlToolsExample,
 };
-
-
-
-
-
-

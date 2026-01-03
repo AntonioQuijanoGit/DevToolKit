@@ -40,7 +40,8 @@ export default function ShellCommandBuilderPage() {
       if (example.options && Array.isArray(example.options)) {
         const newParams: Record<string, string> = {};
         example.options.forEach((opt, index) => {
-          if (index % 2 === 0 && example.options && example.options[index + 1]) {
+          const isEven = index - Math.floor(index / 2) * 2 === 0;
+          if (isEven && example.options && example.options[index + 1]) {
             newParams[opt] = example.options[index + 1];
           }
         });

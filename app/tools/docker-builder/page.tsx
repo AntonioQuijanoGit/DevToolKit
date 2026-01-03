@@ -76,7 +76,7 @@ export default function DockerBuilderPage() {
       cmd += ` ${context}`;
       return cmd;
     } else if (command === "exec") {
-      return `docker exec -it ${name || "container"} /bin/bash`;
+      return "docker exec -it " + (name || "container") + " /bin/bash";
     } else if (command === "logs") {
       let cmd = `docker logs`;
       if (name) cmd += ` ${name}`;

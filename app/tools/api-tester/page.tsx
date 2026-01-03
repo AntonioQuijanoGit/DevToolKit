@@ -117,11 +117,10 @@ export default function APITesterPage() {
       } catch (fetchError) {
         clearTimeout(timeoutId);
         if (fetchError instanceof Error && fetchError.name === "AbortError") {
-          throw new Error(
-            `Request timeout: The request took longer than ${
-              TIMEOUT_MS / 1000
-            } seconds`
-          );
+            const timeoutSeconds = TIMEOUT_MS * 0.001;
+            throw new Error(
+              "Request timeout: The request took longer than " + timeoutSeconds + " seconds"
+            );
         }
         // Re-throw to be handled by outer catch
         throw fetchError;
@@ -274,9 +273,9 @@ export default function APITesterPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
-            <div className="p-3 sm:p-4 bg-muted/50 border border-border rounded-lg">
+            <div className="p-3 sm:p-4 bg-muted bg-opacity-50 border border-border rounded-lg">
               <div className="flex items-start gap-2">
-                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center mt-0.5">
+                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500 bg-opacity-10 flex items-center justify-center mt-0.5">
                   <span className="text-[10px] text-blue-600 dark:text-blue-400">
                     ℹ
                   </span>
@@ -452,7 +451,7 @@ export default function APITesterPage() {
                     {response.error}
                   </p>
                   <div className="mt-4 space-y-4">
-                    <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
+                    <div className="p-4 bg-destructive bg-opacity-5 border border-destructive border-opacity-20 rounded-lg">
                       <h4 className="text-sm font-semibold mb-3 text-destructive">
                         Cross-Origin Resource Sharing (CORS) Error
                       </h4>
@@ -484,7 +483,7 @@ export default function APITesterPage() {
                       </div>
                     </div>
 
-                    <div className="p-4 bg-muted/30 border border-border rounded-lg">
+                    <div className="p-4 bg-muted bg-opacity-30 border border-border rounded-lg">
                       <h4 className="text-sm font-semibold mb-3">
                         Recommended Solutions
                       </h4>

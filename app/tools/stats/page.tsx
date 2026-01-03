@@ -151,7 +151,7 @@ export default function StatsPage() {
                         <div className="h-2 bg-accent rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
-                            animate={{ width: `${percentage}%` }}
+                            animate={{ width: percentage + "%" }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="h-full bg-primary"
                           />
@@ -192,7 +192,7 @@ export default function StatsPage() {
                           <div className="h-2 sm:h-3 bg-accent rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
-                              animate={{ width: `${percentage}%` }}
+                              animate={{ width: percentage + "%" }}
                               transition={{ duration: 0.5, delay: index * 0.1 }}
                               className="h-full bg-gradient-to-r from-primary to-primary/60"
                             />
@@ -312,7 +312,7 @@ export default function StatsPage() {
                           <div className="relative w-full h-full flex items-end">
                             <motion.div
                               initial={{ height: 0 }}
-                              animate={{ height: `${height}%` }}
+                              animate={{ height: height + "%" }}
                               transition={{ duration: 0.5, delay: index * 0.1 }}
                               className="w-full bg-primary rounded-t"
                             />

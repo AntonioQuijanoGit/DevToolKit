@@ -28,7 +28,8 @@ const generateLorem = (type: "words" | "sentences" | "paragraphs", count: number
   if (type === "words") {
     const words: string[] = [];
     for (let i = 0; i < count; i++) {
-      words.push(loremWords[i % loremWords.length]);
+      const wordIndex = i - Math.floor(i / loremWords.length) * loremWords.length;
+      words.push(loremWords[wordIndex]);
     }
     return words.join(" ");
   } else if (type === "sentences") {
@@ -37,7 +38,8 @@ const generateLorem = (type: "words" | "sentences" | "paragraphs", count: number
       const wordCount = Math.floor(Math.random() * 10) + 5;
       const words: string[] = [];
       for (let j = 0; j < wordCount; j++) {
-        words.push(loremWords[j % loremWords.length]);
+        const wordIdx = j - Math.floor(j / loremWords.length) * loremWords.length;
+        words.push(loremWords[wordIdx]);
       }
       const sentence = words.join(" ").charAt(0).toUpperCase() + words.join(" ").slice(1) + ".";
       sentences.push(sentence);
@@ -52,7 +54,8 @@ const generateLorem = (type: "words" | "sentences" | "paragraphs", count: number
         const wordCount = Math.floor(Math.random() * 10) + 5;
         const words: string[] = [];
         for (let k = 0; k < wordCount; k++) {
-          words.push(loremWords[k % loremWords.length]);
+          const wordIdx2 = k - Math.floor(k / loremWords.length) * loremWords.length;
+          words.push(loremWords[wordIdx2]);
         }
         const sentence = words.join(" ").charAt(0).toUpperCase() + words.join(" ").slice(1) + ".";
         sentences.push(sentence);
