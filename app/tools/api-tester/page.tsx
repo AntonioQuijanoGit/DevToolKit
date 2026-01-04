@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { CodeBlock } from "@/components/shared/code-block";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 import { examples } from "@/lib/constants/examples";
 import { useHistoryStore } from "@/lib/store/history-store";
@@ -253,6 +254,14 @@ export default function APITesterPage() {
       />
 
       <div className="flex-1 p-4 sm:p-5 md:p-6 space-y-4 sm:space-y-5 overflow-auto pb-28 sm:pb-32">
+        <HowToUse
+          steps={[
+            "Enter the API endpoint URL",
+            "Select HTTP method (GET, POST, PUT, DELETE, etc.)",
+            "Add headers and request body if needed",
+            "Click 'Send Request' to test the API and view the response",
+          ]}
+        />
         {/* Request Builder */}
         <Card>
           <CardHeader className="p-4 sm:p-6">

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { encode, decode } from "html-entities";
 import { examples } from "@/lib/constants/examples";
 
@@ -60,6 +61,16 @@ export default function HTMLEncoderPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Select Encode or Decode tab depending on your needs",
+              "Enter text to encode or HTML entities to decode",
+              "Click Encode/Decode button to process",
+              "Copy the encoded/decoded result",
+            ]}
+          />
+        </div>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "encode" | "decode")} className="h-full flex flex-col">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="encode">Encode</TabsTrigger>

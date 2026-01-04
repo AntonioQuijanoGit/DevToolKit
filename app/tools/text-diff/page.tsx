@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { diffWords, diffLines, Change } from "diff";
 import { examples } from "@/lib/constants/examples";
 
@@ -54,6 +55,14 @@ export default function TextDiffPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Enter two texts to compare in the input fields",
+            "Select comparison mode (Words or Lines)",
+            "View differences highlighted in real-time",
+            "Copy the diff result for documentation or reviews",
+          ]}
+        />
         <Card>
           <CardHeader className="p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">

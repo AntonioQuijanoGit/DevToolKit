@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { format, parseISO, isValid } from "date-fns";
 import { examples } from "@/lib/constants/examples";
 
@@ -75,6 +76,14 @@ export default function TimestampConverterPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select conversion direction (Timestamp → Date or Date → Timestamp)",
+            "Enter Unix timestamp or date string in ISO format",
+            "Conversion happens automatically as you type",
+            "Copy the converted result for use in your code",
+          ]}
+        />
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "timestamp" | "date")} className="h-full flex flex-col">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="timestamp" className="text-xs sm:text-sm">Timestamp → Date</TabsTrigger>

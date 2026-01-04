@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { CopyButton } from "@/components/shared/copy-button";
 import { CodeBlock } from "@/components/shared/code-block";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 import { examples } from "@/lib/constants/examples";
 
@@ -248,6 +249,14 @@ export default function ShellCommandBuilderPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select command type (find, grep, git, docker, tar, chmod, ssh, curl)",
+            "Fill in the required parameters for your command",
+            "Add optional flags and options",
+            "Click 'Generate' and copy the command for use in terminal",
+          ]}
+        />
         <Card>
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Command Type</CardTitle>

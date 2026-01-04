@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { CodeBlock } from "@/components/shared/code-block";
 import { Badge } from "@/components/ui/badge";
 import { examples } from "@/lib/constants/examples";
@@ -108,6 +109,14 @@ export default function DockerBuilderPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select Docker command type (run, build, exec, logs, compose)",
+            "Fill in the required parameters for your command",
+            "Add optional flags and options",
+            "Copy the generated Docker command for use in terminal",
+          ]}
+        />
         <Card>
           <CardHeader className="p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Command Type</CardTitle>

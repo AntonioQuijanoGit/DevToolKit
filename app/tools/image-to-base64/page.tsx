@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { fileToBase64 } from "@/lib/utils/encoders";
 
 export default function ImageToBase64Page() {
@@ -47,6 +48,14 @@ export default function ImageToBase64Page() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Click 'Choose Image' button to select an image file",
+            "View the image preview in the left panel",
+            "Copy the Base64 encoded string from the right panel",
+            "Use the Base64 string in your code or HTML",
+          ]}
+        />
         <Card>
           <CardHeader className="p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Upload Image</CardTitle>

@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 import { format, addMinutes, addHours, addDays, addWeeks, addMonths } from "date-fns";
 import { examples } from "@/lib/constants/examples";
@@ -104,6 +105,14 @@ export default function CronBuilderPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select minute, hour, day, month, and weekday values",
+            "Use the visual selectors or enter values manually",
+            "View the generated cron expression",
+            "Copy the cron expression for use in your scheduler",
+          ]}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card>
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6 border-b">

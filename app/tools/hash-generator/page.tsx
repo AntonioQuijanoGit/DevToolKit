@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { HistoryDropdown } from "@/components/shared/history-dropdown";
 import { Badge } from "@/components/ui/badge";
 import { generateHash } from "@/lib/utils/generators";
@@ -82,6 +83,16 @@ export default function HashGeneratorPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Enter text in the input field",
+              "Select hash algorithm (MD5, SHA-1, SHA-256, SHA-512)",
+              "Click Generate to create hash",
+              "Use Compare tab to check if two texts have the same hash",
+            ]}
+          />
+        </div>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "generate" | "compare")} className="h-full flex flex-col">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="generate" className="text-xs sm:text-sm">Generate</TabsTrigger>

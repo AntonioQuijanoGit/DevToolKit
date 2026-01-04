@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/shared/copy-button";
 import { CodeBlock } from "@/components/shared/code-block";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 
 export default function RegexToGrepPage() {
@@ -82,7 +83,18 @@ export default function RegexToGrepPage() {
         icon={Search}
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Enter your regex pattern",
+              "Specify file or directory to search",
+              "Select grep options (case-insensitive, whole words, etc.)",
+              "Copy the generated grep command for use in terminal",
+            ]}
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <Card>
           <CardHeader className="p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
@@ -176,6 +188,7 @@ export default function RegexToGrepPage() {
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">

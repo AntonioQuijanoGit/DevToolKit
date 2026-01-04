@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { convertCase, CaseType } from "@/lib/utils/case-converter";
 import { useHistoryStore } from "@/lib/store/history-store";
 import { examples } from "@/lib/constants/examples";
@@ -79,7 +80,18 @@ export default function CaseConverterPage() {
         icon={Type}
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Enter text in the input field",
+              "Select the target case type from the dropdown",
+              "Click 'Convert' to transform the text",
+              "Click 'Convert All' to see all case variations at once",
+            ]}
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
         <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
@@ -143,6 +155,7 @@ export default function CaseConverterPage() {
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

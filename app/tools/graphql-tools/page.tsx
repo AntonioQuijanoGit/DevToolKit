@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { CodeBlock } from "@/components/shared/code-block";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { ErrorDisplay } from "@/components/shared/error-display";
 import {
   validateGraphQL,
@@ -182,6 +183,14 @@ export default function GraphQLToolsPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select a tool tab (Query Builder, Formatter, or Validator)",
+            "In Builder: Enter query name and fields to build a GraphQL query",
+            "In Formatter: Paste your query and format it",
+            "In Validator: Check your query for syntax errors",
+          ]}
+        />
         <Tabs defaultValue="builder" className="space-y-3 sm:space-y-4 md:space-y-6">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="builder" className="text-xs sm:text-sm">Query Builder</TabsTrigger>

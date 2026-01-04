@@ -11,6 +11,7 @@ import { CodeBlock } from "@/components/shared/code-block";
 import { CopyButton } from "@/components/shared/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 
 export default function ShellFormatterPage() {
   const [input, setInput] = useState("");
@@ -129,6 +130,14 @@ done`);
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select Format or Validate tab",
+            "Paste your shell script in the input field",
+            "Click Format to beautify or Validate to check for errors",
+            "View formatted output or validation results",
+          ]}
+        />
         <Tabs defaultValue="format" className="h-full flex flex-col">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="format" className="text-xs sm:text-sm">Format</TabsTrigger>

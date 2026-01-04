@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 import { examples } from "@/lib/constants/examples";
 
@@ -95,6 +96,14 @@ export default function PasswordGeneratorPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Adjust password length using the slider",
+            "Select character types (uppercase, lowercase, numbers, symbols)",
+            "Click 'Generate' to create 5 secure passwords",
+            "Copy the password you prefer or generate new ones",
+          ]}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card>
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6">

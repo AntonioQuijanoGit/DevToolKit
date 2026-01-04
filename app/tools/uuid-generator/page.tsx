@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { generateUUIDs } from "@/lib/utils/generators";
 import { examples } from "@/lib/constants/examples";
 
@@ -57,6 +58,14 @@ export default function UUIDGeneratorPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select UUID version (v1 time-based or v4 random)",
+            "Set the number of UUIDs to generate (1-100)",
+            "Click 'Generate' to create UUIDs",
+            "Copy individual UUIDs or copy all at once",
+          ]}
+        />
         {/* Controls */}
         <Card>
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-4 sm:p-6">

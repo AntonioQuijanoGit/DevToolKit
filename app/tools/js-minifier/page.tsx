@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/shared/copy-button";
 import { CodeBlock } from "@/components/shared/code-block";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { minifyJS, beautifyJS } from "@/lib/utils/js-minifier";
 import { useHistoryStore } from "@/lib/store/history-store";
 import { examples } from "@/lib/constants/examples";
@@ -75,6 +76,16 @@ export default function JSMinifierPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Select Minify or Beautify tab",
+              "Paste your JavaScript code in the input field",
+              "Click Minify or Beautify button to process",
+              "Copy the minified or beautified result",
+            ]}
+          />
+        </div>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "minify" | "beautify")}>
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="minify" className="text-xs sm:text-sm">Minify</TabsTrigger>

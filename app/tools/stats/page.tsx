@@ -11,6 +11,7 @@ import { useStatsStore } from "@/lib/store/stats-store";
 import { useAnalyticsStore } from "@/lib/store/analytics-store";
 import { tools } from "@/lib/constants/tools";
 import { format } from "date-fns";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { cn } from "@/lib/utils";
 
 export default function StatsPage() {
@@ -67,6 +68,14 @@ export default function StatsPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "View Overview, Heatmap, or Trends tabs",
+            "Overview: See total usage and top tools",
+            "Heatmap: View usage patterns by day and hour",
+            "Trends: Analyze usage trends over time",
+          ]}
+        />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <Card>
             <CardHeader className="p-4 sm:p-6 border-b">

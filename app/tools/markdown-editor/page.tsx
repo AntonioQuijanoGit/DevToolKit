@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/shared/copy-button";
 import { DownloadButton } from "@/components/shared/download-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 
 const markdownExample = `# DevToolkit
 
@@ -92,7 +93,18 @@ export default function MarkdownEditorPage() {
         icon={FileText}
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Write Markdown in the left editor",
+              "See live HTML preview on the right",
+              "Use Markdown syntax (headers, lists, links, code blocks, etc.)",
+              "Download or copy the rendered HTML",
+            ]}
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Markdown</CardTitle>
@@ -142,6 +154,7 @@ export default function MarkdownEditorPage() {
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

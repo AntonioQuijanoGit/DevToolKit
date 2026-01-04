@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 import { examples } from "@/lib/constants/examples";
 
@@ -63,6 +64,14 @@ export default function StringUtilitiesPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Enter text in the input field",
+            "View real-time statistics (characters, words, lines, paragraphs, bytes)",
+            "Use transformation buttons (uppercase, lowercase, reverse, etc.)",
+            "Copy transformed text or statistics for use",
+          ]}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">

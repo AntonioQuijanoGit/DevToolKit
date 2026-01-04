@@ -15,6 +15,7 @@ import { DragDropZone } from "@/components/shared/drag-drop-zone";
 import { KeyboardShortcuts } from "@/components/shared/keyboard-shortcuts";
 import { DownloadButton } from "@/components/shared/download-button";
 import { Skeleton } from "@/components/shared/skeleton-loader";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { formatJSON, minifyJSON, validateJSON } from "@/lib/utils/formatters";
 import { examples } from "@/lib/constants/examples";
 import { useHistoryStore } from "@/lib/store/history-store";
@@ -193,7 +194,19 @@ export default function JSONFormatterPage() {
         category="Formatter"
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6 p-4 sm:p-5 md:p-6 pb-28 sm:pb-32">
+      <div className="flex-1 p-4 sm:p-5 md:p-6 pb-28 sm:pb-32">
+        <div className="mb-4 sm:mb-5 md:mb-6">
+          <HowToUse
+            steps={[
+              "Paste your JSON in the input area or drag & drop a JSON file",
+              "Click 'Format' to beautify your JSON with proper indentation",
+              "Click 'Minify' to compress your JSON to a single line",
+              "Click 'Validate' to check for syntax errors",
+            ]}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
         {/* Input Panel */}
         <Card className="flex flex-col min-h-[400px] sm:min-h-[500px]">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
@@ -281,6 +294,7 @@ export default function JSONFormatterPage() {
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
 
       {/* Action Bar - Fixed at bottom */}

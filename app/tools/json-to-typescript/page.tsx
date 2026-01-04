@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
 import { CodeBlock } from "@/components/shared/code-block";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { ErrorDisplay } from "@/components/shared/error-display";
 import { jsonToTypeScript } from "@/lib/utils/json-to-ts";
 import { useHistoryStore } from "@/lib/store/history-store";
@@ -63,7 +64,18 @@ export default function JSONToTypeScriptPage() {
         icon={FileJson}
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Enter your JSON object in the input field",
+              "Set the interface name (e.g., User, Product)",
+              "Click 'Convert' to generate TypeScript interfaces",
+              "Copy the generated TypeScript code for your project",
+            ]}
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
         <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">JSON Input</CardTitle>
@@ -116,6 +128,7 @@ export default function JSONToTypeScriptPage() {
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

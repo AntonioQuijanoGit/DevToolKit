@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 import { commands, searchCommands, getCommandsByCategory, commandCategories } from "@/lib/constants/shell-commands";
 
@@ -39,6 +40,14 @@ export default function CommandCheatsheetPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Search commands by name, description, or tags",
+            "Filter by category (git, docker, find, grep, etc.)",
+            "Click on a command to copy it to clipboard",
+            "Browse commands to discover new ones",
+          ]}
+        />
         <Card>
           <CardHeader className="p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Search Commands</CardTitle>

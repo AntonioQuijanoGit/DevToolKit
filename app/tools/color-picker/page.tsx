@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/copy-button";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { hexToRgb, rgbToHex, rgbToHsl, rgbToHsv, hslToRgb } from "@/lib/utils/color-utils";
 import { examples } from "@/lib/constants/examples";
 
@@ -81,6 +82,14 @@ export default function ColorPickerPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Enter color in HEX, RGB, or HSL format",
+            "View color preview and converted values in all formats",
+            "Adjust RGB or HSL sliders to change the color",
+            "Copy any color format (HEX, RGB, HSL, HSV) for use in your code",
+          ]}
+        />
         {/* Color Preview */}
         <Card>
           <CardHeader className="p-4 sm:p-6">

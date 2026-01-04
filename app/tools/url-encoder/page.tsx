@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { encodeURL, decodeURL } from "@/lib/utils/encoders";
 import { examples } from "@/lib/constants/examples";
 import { useHistoryStore } from "@/lib/store/history-store";
@@ -71,6 +72,16 @@ export default function URLEncoderPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Select Encode or Decode tab depending on your needs",
+              "Enter URL string to encode or encoded URL to decode",
+              "Click Encode/Decode button to process",
+              "Copy the result for use in your application",
+            ]}
+          />
+        </div>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "encode" | "decode")} className="h-full flex flex-col">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="encode">Encode</TabsTrigger>

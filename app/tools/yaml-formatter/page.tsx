@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CodeBlock } from "@/components/shared/code-block";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 
 const formatYAML = (yaml: string): { success: boolean; result?: string; error?: string } => {
   try {
@@ -89,7 +90,18 @@ features:
         icon={FileText}
       />
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+      <div className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto pb-20 sm:pb-24">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Paste your YAML code in the input field",
+              "Click 'Format' button to beautify your YAML",
+              "View the formatted output with proper indentation",
+              "Copy the formatted result for use in your project",
+            ]}
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <Card className="flex flex-col overflow-hidden min-h-[400px] sm:min-h-[500px]">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 pb-3 p-4 sm:p-6 border-b">
             <CardTitle className="text-base sm:text-lg font-semibold">Input</CardTitle>
@@ -136,6 +148,7 @@ features:
             )}
           </CardContent>
         </Card>
+        </div>
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm p-3 sm:p-4 md:p-5 z-10 shadow-lg">

@@ -16,6 +16,7 @@ import { useToast } from "@/lib/hooks/use-toast";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Skeleton } from "@/components/shared/skeleton-loader";
 import { CodeBlock } from "@/components/shared/code-block";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { cn } from "@/lib/utils";
 
 const supportedTools = [
@@ -175,6 +176,14 @@ export default function WorkflowAutomationPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Select Create or Run tab",
+            "In Create: Add steps to build your workflow",
+            "In Run: Select a saved workflow and execute it",
+            "Save workflows for reuse and view execution results",
+          ]}
+        />
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "create" | "run")}>
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="create" className="text-xs sm:text-sm">Create Workflow</TabsTrigger>

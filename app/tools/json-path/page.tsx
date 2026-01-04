@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CodeBlock } from "@/components/shared/code-block";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 import { Badge } from "@/components/ui/badge";
 
 export default function JSONPathPage() {
@@ -100,6 +101,22 @@ export default function JSONPathPage() {
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 overflow-auto pb-20 sm:pb-24">
+        <HowToUse
+          steps={[
+            "Enter your JSON data in the input field",
+            "Enter a JSONPath expression (e.g., $.users[*], $.settings.theme)",
+            "Click 'Test' to evaluate the path",
+            "View matching results or copy them for use",
+          ]}
+        />
+        <HowToUse
+          steps={[
+            "Enter your JSON data in the input field",
+            "Enter a JSONPath expression (e.g., $.users[*], $.settings.theme)",
+            "Click 'Test' to evaluate the path",
+            "View matching results or copy them for use",
+          ]}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <Card className="flex flex-col overflow-hidden min-h-[300px] sm:min-h-[400px]">
             <CardHeader className="p-4 sm:p-6 border-b">

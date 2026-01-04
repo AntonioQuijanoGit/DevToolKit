@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CodeBlock } from "@/components/shared/code-block";
 import { CopyButton } from "@/components/shared/copy-button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HowToUse } from "@/components/shared/how-to-use";
 
 const csvToJSON = (csv: string): string => {
   const lines = csv.split("\n").filter((line) => line.trim());
@@ -89,6 +90,16 @@ Jane,25,Los Angeles`);
       />
 
       <div className="flex-1 p-3 sm:p-4 md:p-6">
+        <div className="mb-3 sm:mb-4 md:mb-6">
+          <HowToUse
+            steps={[
+              "Select conversion direction (CSV → JSON or JSON → CSV)",
+              "Enter CSV or JSON data in the input field",
+              "Click 'Convert' to transform the data",
+              "Copy the converted result for use in your project",
+            ]}
+          />
+        </div>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "csv" | "json")} className="h-full flex flex-col">
           <TabsList className="mb-3 sm:mb-4">
             <TabsTrigger value="csv" className="text-xs sm:text-sm">CSV → JSON</TabsTrigger>
